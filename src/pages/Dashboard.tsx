@@ -8,8 +8,18 @@ import AIRecommendations from '../components/dashboard/AIRecommendations';
 import Analytics from '../components/dashboard/Analytics';
 import Strategies from '../components/dashboard/Strategies';
 import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const Dashboard: React.FC = () => {
+  const { toast } = useToast();
+
+  const handleCardClick = (title: string) => {
+    toast({
+      title: `${title} Selected`,
+      description: `Loading ${title.toLowerCase()} dashboard section`,
+    });
+  };
+
   return (
     <Layout hideNav={true}>
       <div className="container mx-auto px-6 py-8">
@@ -40,7 +50,7 @@ const Dashboard: React.FC = () => {
 
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-gradient-card border-white/5">
+          <Card className="bg-gradient-card border-white/5 cursor-pointer hover-scale transition-all" onClick={() => handleCardClick("Portfolio")}>
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center">
                 <Wallet className="w-4 h-4 mr-2 text-kamui-teal" />
@@ -55,7 +65,7 @@ const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Card className="bg-gradient-card border-white/5">
+          <Card className="bg-gradient-card border-white/5 cursor-pointer hover-scale transition-all" onClick={() => handleCardClick("Master AI")}>
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center">
                 <Brain className="w-4 h-4 mr-2 text-kamui-accent" />
@@ -70,22 +80,24 @@ const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Card className="bg-gradient-card border-white/5">
-            <CardHeader className="pb-2">
-              <CardDescription className="flex items-center">
-                <Layers className="w-4 h-4 mr-2 text-kamui-purple" />
-                Intelligence Agents
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <CardTitle className="text-2xl font-display">4 Active</CardTitle>
-              <p className="text-kamui-purple text-sm flex items-center mt-1">
-                12 market predictions
-              </p>
-            </CardContent>
-          </Card>
+          <Link to="/intelligence-agents" className="block">
+            <Card className="bg-gradient-card border-white/5 cursor-pointer hover-scale transition-all h-full">
+              <CardHeader className="pb-2">
+                <CardDescription className="flex items-center">
+                  <Layers className="w-4 h-4 mr-2 text-kamui-purple" />
+                  Intelligence Agents
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <CardTitle className="text-2xl font-display">4 Active</CardTitle>
+                <p className="text-kamui-purple text-sm flex items-center mt-1">
+                  12 market predictions
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
           
-          <Card className="bg-gradient-card border-white/5">
+          <Card className="bg-gradient-card border-white/5 cursor-pointer hover-scale transition-all" onClick={() => handleCardClick("User AI Agents")}>
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center">
                 <LineChart className="w-4 h-4 mr-2 text-amber-400" />

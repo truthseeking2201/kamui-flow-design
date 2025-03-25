@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import StrategyDetails from "./pages/StrategyDetails";
+import IntelligenceAgents from "./pages/IntelligenceAgents";
+import AgentDetails from "./pages/AgentDetails";
 import NotFound from "./pages/NotFound";
 
 // Create a new QueryClient instance
@@ -25,6 +27,8 @@ const App: React.FC = () => {
               <Route path="/" element={<Index />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/strategy/:id" element={<StrategyDetails />} />
+              <Route path="/intelligence-agents" element={<IntelligenceAgents />} />
+              <Route path="/agent/:id" element={<AgentDetails />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
