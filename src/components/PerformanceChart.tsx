@@ -1,6 +1,11 @@
 
 import React from 'react';
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { 
+  ChartContainer, 
+  ChartTooltip, 
+  ChartTooltipContent 
+} from '@/components/ui/chart';
 
 interface PerformanceChartProps {
   period?: 'week' | 'month' | 'year';
@@ -47,9 +52,23 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ period = 'month' })
 
   const data = generateData();
 
+  // Chart configuration for shadcn/ui chart
+  const chartConfig = {
+    performance: {
+      label: "Performance",
+      theme: {
+        light: "#7DF9FF",
+        dark: "#7DF9FF"
+      }
+    }
+  };
+
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data}>
+    <ChartContainer 
+      config={chartConfig} 
+      className="h-full w-full"
+    >
+      <LineChart data={data} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
         <XAxis 
           dataKey="date" 
@@ -58,25 +77,25 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ period = 'month' })
           tickCount={period === 'month' ? 10 : undefined}
         />
         <YAxis stroke="rgba(255,255,255,0.5)" />
-        <Tooltip 
-          contentStyle={{ 
-            backgroundColor: 'rgba(13, 17, 23, 0.8)', 
-            borderColor: '#7DF9FF', 
-            borderRadius: '8px',
-            color: 'white'
-          }} 
-          formatter={(value) => [`${value}`, 'Value']}
+        <ChartTooltip
+          content={
+            <ChartTooltipContent 
+              labelKey="date"
+              nameKey="performance" 
+            />
+          }
         />
         <Line 
           type="monotone" 
           dataKey="value" 
-          stroke="#7DF9FF" 
+          name="performance"
+          stroke="var(--color-performance)" 
           strokeWidth={2}
           dot={{ r: 3, fill: '#0D1117', strokeWidth: 2 }}
-          activeDot={{ r: 6, fill: '#7DF9FF' }}
+          activeDot={{ r: 6, fill: 'var(--color-performance)' }}
         />
       </LineChart>
-    </ResponsiveContainer>
+    </ChartContainer>
   );
 };
 
