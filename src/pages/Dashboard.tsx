@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Layout from '../components/Layout';
-import { Wallet, Brain, Info, LogOut } from 'lucide-react';
+import { Wallet, Brain, Info, LogOut, Layers, LineChart } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Portfolio from '../components/dashboard/Portfolio';
 import AIRecommendations from '../components/dashboard/AIRecommendations';
@@ -22,13 +22,13 @@ const Dashboard: React.FC = () => {
               </div>
               <Link to="/" className="font-display font-bold text-lg">Kamui <span className="text-gradient">AI</span></Link>
             </div>
-            <h1 className="font-display font-bold text-2xl md:text-3xl mb-2">AI Finance <span className="text-gradient">Dashboard</span></h1>
-            <p className="text-white/70">Real-time market making strategies and analytics</p>
+            <h1 className="font-display font-bold text-2xl md:text-3xl mb-2">RWA <span className="text-gradient">Market-Making</span> Dashboard</h1>
+            <p className="text-white/70">AI-driven real-world asset liquidity and market-making</p>
           </div>
           <div className="mt-4 md:mt-0 flex items-center gap-4">
             <div className="glass-card p-2 px-4 text-sm flex items-center">
               <Info className="w-4 h-4 text-kamui-accent mr-2" />
-              <span className="text-white/80 mr-2">AI Agent Status:</span>
+              <span className="text-white/80 mr-2">Master AI Status:</span>
               <span className="text-kamui-accent font-medium">Active</span>
             </div>
             <Link to="/" className="glass-button px-3 py-2 text-white/80 font-medium flex items-center gap-2 hover-scale">
@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center">
                 <Wallet className="w-4 h-4 mr-2 text-kamui-teal" />
-                Portfolio Value
+                RWA Portfolio Value
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -59,7 +59,7 @@ const Dashboard: React.FC = () => {
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center">
                 <Brain className="w-4 h-4 mr-2 text-kamui-accent" />
-                Current APY
+                Master AI Performance
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -73,14 +73,14 @@ const Dashboard: React.FC = () => {
           <Card className="bg-gradient-card border-white/5">
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center">
-                <Brain className="w-4 h-4 mr-2 text-kamui-purple" />
-                Active Strategies
+                <Layers className="w-4 h-4 mr-2 text-kamui-purple" />
+                Intelligence Agents
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <CardTitle className="text-2xl font-display">7</CardTitle>
+              <CardTitle className="text-2xl font-display">4 Active</CardTitle>
               <p className="text-kamui-purple text-sm flex items-center mt-1">
-                3 optimized today
+                12 market predictions
               </p>
             </CardContent>
           </Card>
@@ -88,14 +88,14 @@ const Dashboard: React.FC = () => {
           <Card className="bg-gradient-card border-white/5">
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center">
-                <Info className="w-4 h-4 mr-2 text-amber-400" />
-                AI Insights
+                <LineChart className="w-4 h-4 mr-2 text-amber-400" />
+                User AI Agents
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <CardTitle className="text-2xl font-display">4 New</CardTitle>
+              <CardTitle className="text-2xl font-display">7 Deployed</CardTitle>
               <p className="text-amber-400 text-sm flex items-center mt-1">
-                Optimization opportunities
+                3 optimized today
               </p>
             </CardContent>
           </Card>

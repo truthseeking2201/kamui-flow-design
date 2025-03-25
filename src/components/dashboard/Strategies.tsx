@@ -3,42 +3,76 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Brain, ChevronRight, Plus, Zap } from 'lucide-react';
+import { Brain, ChevronRight, Plus, Zap, Building, Landmark, DollarSign } from 'lucide-react';
+import { useRWAAssets } from '@/hooks/useRWAAssets';
 
 const Strategies: React.FC = () => {
+  const { assetType, setAssetType, assetTypes } = useRWAAssets();
+  
   const strategies = [
     {
       id: "1",
-      name: "Momentum Alpha",
-      description: "AI-driven momentum strategy",
+      name: "RWA Momentum Alpha",
+      description: "AI-driven RWA market-making",
       apy: 42,
       risk: "Medium",
-      status: "Active"
+      status: "Active",
+      type: "equities"
     },
     {
       id: "2",
-      name: "Stable Yield",
-      description: "Low volatility income",
-      apy: 18,
-      risk: "Low",
-      status: "Active"
+      name: "Real Estate Yield",
+      description: "Tokenized property market-making",
+      apy: 36,
+      risk: "Medium-High",
+      status: "Active",
+      type: "real-estate"
     },
     {
       id: "3",
-      name: "Market Neutral",
-      description: "Delta-neutral strategy",
-      apy: 25,
+      name: "Gold Reserve Strategy",
+      description: "Precious metals liquidity provision",
+      apy: 28,
       risk: "Low-Medium",
-      status: "Paused"
+      status: "Active",
+      type: "precious-metals"
+    },
+    {
+      id: "4",
+      name: "Fixed Income Arbitrage",
+      description: "Bond market liquidity pool",
+      apy: 18,
+      risk: "Low",
+      status: "Paused",
+      type: "fixed-income"
     }
   ];
+
+  // Filter strategies based on selected asset type
+  const filteredStrategies = assetType === 'all' 
+    ? strategies 
+    : strategies.filter(strategy => strategy.type === assetType);
+
+  const getStrategyIcon = (type: string) => {
+    switch(type) {
+      case 'real-estate':
+        return <Building className="h-5 w-5 text-kamui-purple" />;
+      case 'precious-metals':
+        return <Landmark className="h-5 w-5 text-amber-400" />;
+      case 'fixed-income':
+        return <DollarSign className="h-5 w-5 text-kamui-teal" />;
+      case 'equities':
+      default:
+        return <Brain className="h-5 w-5 text-kamui-accent" />;
+    }
+  };
 
   return (
     <Card className="bg-gradient-card border-white/5">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
-          <CardTitle>Active Strategies</CardTitle>
-          <CardDescription>AI-powered investment strategies</CardDescription>
+          <CardTitle>AI Market-Making Strategies</CardTitle>
+          <CardDescription>AI-powered RWA liquidity strategies</CardDescription>
         </div>
         <Button variant="outline" className="glass-button text-kamui-accent hover-scale">
           <Plus className="mr-2 h-4 w-4" />
@@ -46,8 +80,22 @@ const Strategies: React.FC = () => {
         </Button>
       </CardHeader>
       <CardContent>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {assetTypes.map(type => (
+            <Button 
+              key={type.value}
+              variant={assetType === type.value ? "default" : "outline"}
+              size="sm"
+              onClick={() => setAssetType(type.value as any)}
+              className={`text-xs ${assetType === type.value ? 'bg-kamui-accent text-kamui-dark' : 'bg-white/5 text-white/70'}`}
+            >
+              {type.label}
+            </Button>
+          ))}
+        </div>
+        
         <div className="space-y-3">
-          {strategies.map((strategy) => (
+          {filteredStrategies.map((strategy) => (
             <Link 
               key={strategy.id} 
               to={`/strategy/${strategy.id}`}
@@ -57,7 +105,7 @@ const Strategies: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-kamui-accent/20 to-kamui-purple/20 flex items-center justify-center">
-                      <Brain className="h-5 w-5 text-kamui-accent" />
+                      {getStrategyIcon(strategy.type)}
                     </div>
                     <div>
                       <div className="flex items-center">

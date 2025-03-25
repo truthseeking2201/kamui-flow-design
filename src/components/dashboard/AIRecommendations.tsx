@@ -11,32 +11,32 @@ const AIRecommendations: React.FC = () => {
 
   const recommendations = [
     {
-      title: "Rebalance Portfolio",
-      description: "Optimize for current market volatility",
-      icon: <Layers className="w-4 h-4 text-kamui-purple" />,
-      action: "View Details",
-      expanded: "Your portfolio allocation could be optimized to reduce risk by 15% while maintaining similar returns. The AI suggests increasing USDK allocation by 5% and decreasing ETH exposure."
+      title: "Master AI: Portfolio Rebalance",
+      description: "Optimize for RWA market conditions",
+      icon: <Brain className="w-4 h-4 text-kamui-purple" />,
+      action: "Accept Recommendation",
+      expanded: "The Master AI Agent has analyzed current RWA market conditions and recommends rebalancing your portfolio to reduce risk by 15% while maintaining similar returns. This includes increasing USDK allocation by 5% and decreasing real estate exposure temporarily."
     },
     {
-      title: "New Strategy Available",
-      description: "High-yield opportunity detected",
-      icon: <Activity className="w-4 h-4 text-kamui-teal" />,
-      action: "Explore",
-      expanded: "A new AI-driven strategy 'Momentum Alpha' has been identified that could increase your annual returns by an estimated 8-12% with minimal additional risk."
+      title: "Intelligence AI: Market Analysis",
+      description: "Tokenized real estate opportunity",
+      icon: <Layers className="w-4 h-4 text-kamui-teal" />,
+      action: "View Analysis",
+      expanded: "Our Intelligence Agents have identified increasing liquidity in the tokenized real estate market, suggesting a potential yield opportunity. The forecast shows a 3-5% increase in market activity over the next 7 days."
     },
     {
-      title: "Risk Exposure Alert",
-      description: "Consider reducing position",
+      title: "Risk Assessment Alert",
+      description: "High volatility detected in gold market",
       icon: <AlertCircle className="w-4 h-4 text-amber-400" />,
-      action: "Adjust",
-      expanded: "Current market conditions indicate increased volatility for ETH. The AI recommends temporarily reducing your ETH position by 30% to protect against potential downside."
+      action: "Hedge Position",
+      expanded: "Intelligence Agents have detected abnormal volatility patterns in the gold market. To protect your precious metals exposure, consider using our automated hedging strategy which has been 83% effective in similar market conditions."
     },
     {
-      title: "Liquidity Opportunity",
-      description: "Earn additional yield on idle assets",
-      icon: <Wallet className="w-4 h-4 text-kamui-accent" />,
-      action: "Optimize",
-      expanded: "You have approximately $12,500 in idle assets that could be providing liquidity in Stable Return vaults, potentially earning an additional 10-15% APY."
+      title: "User AI: Strategy Suggestion",
+      description: "New fixed-income market-making strategy",
+      icon: <LineChart className="w-4 h-4 text-kamui-accent" />,
+      action: "Deploy Strategy",
+      expanded: "Based on your risk profile and previous strategy preferences, our User AI Agent has developed a custom fixed-income market-making strategy. Simulations predict a 12-18% APY with moderate risk profile. Deploy this strategy to your agents with one click."
     }
   ];
 
@@ -57,9 +57,9 @@ const AIRecommendations: React.FC = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Brain className="w-5 h-5 text-kamui-accent" />
-          AI Recommendations
+          AI Hierarchy Insights
         </CardTitle>
-        <CardDescription>Intelligent optimization suggestions</CardDescription>
+        <CardDescription>Multi-layered AI optimization for RWAs</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -105,7 +105,7 @@ const AIRecommendations: React.FC = () => {
         </div>
         
         <Button variant="outline" className="w-full mt-4 glass-button text-kamui-accent hover-scale">
-          View All Insights
+          View All AI Insights
         </Button>
       </CardContent>
     </Card>

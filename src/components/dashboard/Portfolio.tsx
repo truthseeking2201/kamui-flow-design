@@ -2,24 +2,44 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DollarSign, TrendingUp, PieChart, ArrowRight } from 'lucide-react';
+import { DollarSign, Building, Landmark, PieChart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRWAAssets } from '@/hooks/useRWAAssets';
 
 const Portfolio: React.FC = () => {
-  // Mock portfolio data
+  const { assetType, setAssetType, assetTypes } = useRWAAssets();
+  
+  // Updated portfolio data to reflect RWA assets
   const assets = [
-    { name: 'USDK Stablecoin', amount: '45,250.00', value: '$45,250.00', allocation: 36.3, change: 2.4 },
-    { name: 'KMM Token', amount: '15,430', value: '$38,575.00', allocation: 30.9, change: 5.7 },
-    { name: 'ETH', amount: '12.54', value: '$25,080.00', allocation: 20.1, change: -1.2 },
-    { name: 'BTC', amount: '0.43', value: '$15,627.85', allocation: 12.7, change: 3.8 }
+    { name: 'USDK Stablecoin', amount: '45,250.00', value: '$45,250.00', allocation: 36.3, change: 2.4, type: 'fixed-income' },
+    { name: 'Tokenized Real Estate Fund', amount: '12.65', value: '$38,575.00', allocation: 30.9, change: 5.7, type: 'real-estate' },
+    { name: 'Gold ETF', amount: '18.22', value: '$25,080.00', allocation: 20.1, change: -1.2, type: 'precious-metals' },
+    { name: 'Equity Index', amount: '8.75', value: '$15,627.85', allocation: 12.7, change: 3.8, type: 'equities' }
   ];
+
+  // Filter assets based on selected type
+  const filteredAssets = assetType === 'all' 
+    ? assets 
+    : assets.filter(asset => asset.type === assetType);
+
+  const getAssetIcon = (assetName: string) => {
+    if (assetName.includes('USDK') || assetName.includes('Fixed Income')) {
+      return <DollarSign className="h-5 w-5 text-kamui-accent" />;
+    } else if (assetName.includes('Real Estate')) {
+      return <Building className="h-5 w-5 text-kamui-purple" />;
+    } else if (assetName.includes('Gold') || assetName.includes('Silver') || assetName.includes('Precious')) {
+      return <Landmark className="h-5 w-5 text-amber-400" />;
+    } else {
+      return <PieChart className="h-5 w-5 text-kamui-teal" />;
+    }
+  };
 
   return (
     <Card className="bg-gradient-card border-white/5">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
-          <CardTitle>Portfolio Allocation</CardTitle>
-          <CardDescription>Asset distribution and performance</CardDescription>
+          <CardTitle>RWA Portfolio Allocation</CardTitle>
+          <CardDescription>Tokenized real-world assets distribution</CardDescription>
         </div>
         <Tabs defaultValue="list">
           <TabsList className="bg-white/5">
@@ -29,8 +49,22 @@ const Portfolio: React.FC = () => {
         
           <CardContent>
             <TabsContent value="list">
+              <div className="flex flex-wrap gap-2 mb-4">
+                {assetTypes.map(type => (
+                  <Button 
+                    key={type.value}
+                    variant={assetType === type.value ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setAssetType(type.value as any)}
+                    className={`text-xs ${assetType === type.value ? 'bg-kamui-accent text-kamui-dark' : 'bg-white/5 text-white/70'}`}
+                  >
+                    {type.label}
+                  </Button>
+                ))}
+              </div>
+            
               <div className="space-y-1">
-                {assets.map((asset, index) => (
+                {filteredAssets.map((asset, index) => (
                   <div 
                     key={index} 
                     className="glass-card p-3 hover-scale transition-all duration-200"
@@ -38,13 +72,7 @@ const Portfolio: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-kamui-accent/20 to-kamui-purple/20 flex items-center justify-center">
-                          {asset.name.includes('USDK') ? (
-                            <DollarSign className="h-5 w-5 text-kamui-accent" />
-                          ) : asset.name.includes('KMM') ? (
-                            <TrendingUp className="h-5 w-5 text-kamui-purple" />
-                          ) : (
-                            <PieChart className="h-5 w-5 text-kamui-teal" />
-                          )}
+                          {getAssetIcon(asset.name)}
                         </div>
                         <div>
                           <h4 className="font-medium text-white">{asset.name}</h4>
@@ -77,7 +105,7 @@ const Portfolio: React.FC = () => {
               </div>
               
               <Button variant="outline" className="w-full mt-4 glass-button text-kamui-accent hover-scale group">
-                <span>Manage Portfolio</span>
+                <span>Manage RWA Portfolio</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </TabsContent>
@@ -86,7 +114,7 @@ const Portfolio: React.FC = () => {
               <div className="h-[300px] flex items-center justify-center glass-card neon-border border-kamui-accent/30">
                 <div className="text-center">
                   <PieChart className="h-10 w-10 text-kamui-accent mx-auto mb-3 opacity-50" />
-                  <p className="text-white/60 mb-2">Portfolio Allocation Chart</p>
+                  <p className="text-white/60 mb-2">RWA Portfolio Allocation Chart</p>
                   <p className="text-xs text-white/40">(Visualization will be implemented here)</p>
                 </div>
               </div>

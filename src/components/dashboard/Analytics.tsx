@@ -5,8 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, BarChart3, PieChart, TrendingUp, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ResponsiveContainer, LineChart as ReLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart as ReBarChart, Bar, PieChart as RePieChart, Pie, Cell } from 'recharts';
+import { useRWAAssets } from '@/hooks/useRWAAssets';
 
 const Analytics: React.FC = () => {
+  const { assetType } = useRWAAssets();
+
   // Sample data for charts
   const returnsData = [
     { date: 'Jan', value: 1000 },
@@ -28,27 +31,38 @@ const Analytics: React.FC = () => {
     { date: 'Sun', trades: 8 },
   ];
 
-  const comparisonData = [
-    { name: 'Momentum', value: 42 },
-    { name: 'Value', value: 28 },
-    { name: 'Growth', value: 30 },
+  const rwaComparisonData = [
+    { name: 'Real Estate', value: 42 },
+    { name: 'Precious Metals', value: 18 },
+    { name: 'Fixed Income', value: 25 },
+    { name: 'Equities', value: 15 },
   ];
   
-  const COLORS = ['#7DF9FF', '#9b87f5', '#6E59A5', '#7E69AB'];
+  const COLORS = ['#9b87f5', '#7DF9FF', '#F97316', '#6E59A5'];
+
+  const getAssetTypeTitle = () => {
+    switch(assetType) {
+      case 'real-estate': return 'Real Estate Assets';
+      case 'precious-metals': return 'Precious Metals';
+      case 'fixed-income': return 'Fixed Income Products';
+      case 'equities': return 'Equity Assets';
+      default: return 'All RWA Assets';
+    }
+  };
 
   return (
     <Card className="bg-gradient-card border-white/5">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
-          <CardTitle>Performance Analytics</CardTitle>
-          <CardDescription>AI-powered insights and metrics</CardDescription>
+          <CardTitle>RWA Performance Analytics</CardTitle>
+          <CardDescription>{getAssetTypeTitle()} metrics and insights</CardDescription>
         </div>
         <div className="flex items-center gap-2">
           <Tabs defaultValue="returns">
             <TabsList className="bg-white/5">
               <TabsTrigger value="returns">Returns</TabsTrigger>
-              <TabsTrigger value="activity">Activity</TabsTrigger>
-              <TabsTrigger value="comparison">Comparison</TabsTrigger>
+              <TabsTrigger value="activity">Trading Activity</TabsTrigger>
+              <TabsTrigger value="comparison">RWA Breakdown</TabsTrigger>
             </TabsList>
           
             <CardContent>
@@ -131,7 +145,7 @@ const Analytics: React.FC = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     <RePieChart>
                       <Pie
-                        data={comparisonData}
+                        data={rwaComparisonData}
                         cx="50%"
                         cy="50%"
                         labelLine={false}
@@ -141,7 +155,7 @@ const Analytics: React.FC = () => {
                         dataKey="value"
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                       >
-                        {comparisonData.map((entry, index) => (
+                        {rwaComparisonData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
