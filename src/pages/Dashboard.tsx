@@ -1,27 +1,40 @@
 
 import React from 'react';
 import Layout from '../components/Layout';
-import { Wallet, Brain, Info } from 'lucide-react';
+import { Wallet, Brain, Info, LogOut } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Portfolio from '../components/dashboard/Portfolio';
 import AIRecommendations from '../components/dashboard/AIRecommendations';
 import Analytics from '../components/dashboard/Analytics';
 import Strategies from '../components/dashboard/Strategies';
+import { Link } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
   return (
-    <Layout>
+    <Layout hideNav={true}>
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-r from-kamui-accent to-kamui-teal flex items-center justify-center">
+                <div className="w-2 h-2 bg-kamui-dark rounded-full"></div>
+              </div>
+              <Link to="/" className="font-display font-bold text-lg">Kamui <span className="text-gradient">AI</span></Link>
+            </div>
             <h1 className="font-display font-bold text-2xl md:text-3xl mb-2">AI Finance <span className="text-gradient">Dashboard</span></h1>
             <p className="text-white/70">Real-time market making strategies and analytics</p>
           </div>
-          <div className="mt-4 md:mt-0 flex items-center gap-2 glass-card p-2 px-4 text-sm">
-            <Info className="w-4 h-4 text-kamui-accent" />
-            <span className="text-white/80">AI Agent Status:</span>
-            <span className="text-kamui-accent font-medium">Active</span>
+          <div className="mt-4 md:mt-0 flex items-center gap-4">
+            <div className="glass-card p-2 px-4 text-sm flex items-center">
+              <Info className="w-4 h-4 text-kamui-accent mr-2" />
+              <span className="text-white/80 mr-2">AI Agent Status:</span>
+              <span className="text-kamui-accent font-medium">Active</span>
+            </div>
+            <Link to="/" className="glass-button px-3 py-2 text-white/80 font-medium flex items-center gap-2 hover-scale">
+              <LogOut className="w-4 h-4" />
+              <span>Exit</span>
+            </Link>
           </div>
         </div>
 

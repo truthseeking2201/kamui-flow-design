@@ -5,6 +5,7 @@ import Hero from '../components/Hero';
 import Features from '../components/Features';
 import StrategyVisualization from '../components/StrategyVisualization';
 import VaultCards from '../components/VaultCards';
+import { Link } from 'react-router-dom';
 
 const Index: React.FC = () => {
   return (
@@ -25,9 +26,11 @@ const Index: React.FC = () => {
               Join the revolution in financial market-making and liquidity provision with Kamui AI. 
               Start optimizing your portfolio today.
             </p>
-            <button className="px-8 py-4 rounded-lg font-semibold bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              Launch App
-            </button>
+            <Link to="/dashboard">
+              <button className="px-8 py-4 rounded-lg font-semibold bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                Launch App
+              </button>
+            </Link>
           </div>
         </div>
       </section>

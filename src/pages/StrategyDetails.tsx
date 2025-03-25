@@ -1,236 +1,220 @@
 
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
+import { ArrowLeft, Activity, Brain, BarChart3, Settings } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Brain, ChevronLeft, LineChart, Settings, Shield, TrendingUp } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import PerformanceChart from '@/components/PerformanceChart';
+import PerformanceChart from '../components/PerformanceChart';
 
 const StrategyDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { toast } = useToast();
-  const [chartPeriod, setChartPeriod] = useState<'week' | 'month' | 'year'>('month');
+  const strategyName = `AI Market Maker Strategy ${id}`;
   
-  // Mock strategy data (would come from API in a real app)
-  const strategy = {
-    id: id || '1',
-    name: 'Momentum Alpha',
-    description: 'AI-driven momentum trading strategy with dynamic rebalancing and volatility controls.',
-    returns: {
-      daily: 0.4,
-      weekly: 2.8,
-      monthly: 12.5,
-      yearly: 42
-    },
-    risk: 'Medium',
-    aiStatus: 'Active',
-    lastOptimized: '2 hours ago',
-    assets: ['BTC', 'ETH', 'USDK', 'KMM'],
-    creator: '0x7aB...45cD'
-  };
-
-  const handleActivate = () => {
-    toast({
-      title: "Strategy Activated",
-      description: "AI agent is now running this strategy with your portfolio",
-      variant: "default",
-    });
-  };
-
-  const handleChartPeriodChange = (value: string) => {
-    setChartPeriod(value as 'week' | 'month' | 'year');
-  };
-
   return (
-    <Layout>
+    <Layout hideNav={true}>
       <div className="container mx-auto px-6 py-8">
-        {/* Header with navigation */}
-        <div className="mb-8">
-          <Button variant="ghost" className="text-white/70 mb-4" onClick={() => window.history.back()}>
-            <ChevronLeft className="mr-2 h-4 w-4" />
-            Back to Strategies
-          </Button>
-          
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <h1 className="font-display font-bold text-2xl md:text-3xl mb-2 flex items-center">
-                <Brain className="mr-3 text-kamui-accent h-7 w-7" />
-                {strategy.name}
-              </h1>
-              <p className="text-white/70">{strategy.description}</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button variant="outline" className="glass-button border-kamui-accent/50 text-kamui-accent hover-scale">
-                <Settings className="mr-2 h-4 w-4" />
-                Customize
-              </Button>
-              <Button 
-                className="bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale"
-                onClick={handleActivate}
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <Link 
+                to="/dashboard" 
+                className="flex items-center gap-2 text-white/70 hover:text-white transition-colors group"
               >
-                Activate Strategy
-              </Button>
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                <span>Back to Dashboard</span>
+              </Link>
             </div>
+            <h1 className="font-display font-bold text-2xl md:text-3xl mb-2">
+              {strategyName} <span className="text-gradient">Details</span>
+            </h1>
+            <p className="text-white/70">Detailed performance metrics and configuration</p>
+          </div>
+          <div className="mt-4 md:mt-0">
+            <button className="glass-button px-5 py-2 text-white/80 font-medium flex items-center gap-2 hover-scale">
+              <Settings className="w-4 h-4" />
+              <span>Configure Strategy</span>
+            </button>
           </div>
         </div>
 
-        {/* Main content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Strategy Performance */}
+        {/* Overview Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card className="bg-gradient-card border-white/5">
+            <CardHeader className="pb-2">
+              <CardDescription className="flex items-center">
+                <Activity className="w-4 h-4 mr-2 text-kamui-accent" />
+                Current APY
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CardTitle className="text-2xl font-display">42.6%</CardTitle>
+              <p className="text-kamui-accent text-sm flex items-center mt-1">
+                +3.8% since last week
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-gradient-card border-white/5">
+            <CardHeader className="pb-2">
+              <CardDescription className="flex items-center">
+                <Brain className="w-4 h-4 mr-2 text-kamui-teal" />
+                AI Confidence
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CardTitle className="text-2xl font-display">High</CardTitle>
+              <p className="text-kamui-teal text-sm flex items-center mt-1">
+                Stable market conditions
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-gradient-card border-white/5">
+            <CardHeader className="pb-2">
+              <CardDescription className="flex items-center">
+                <BarChart3 className="w-4 h-4 mr-2 text-kamui-purple" />
+                Total Value Deployed
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CardTitle className="text-2xl font-display">$38,254.92</CardTitle>
+              <p className="text-kamui-purple text-sm flex items-center mt-1">
+                Across 3 markets
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Strategy Performance */}
+        <div className="mb-8">
+          <Card className="bg-gradient-card border-white/5">
+            <CardHeader>
+              <CardTitle className="flex items-center text-xl">
+                <Activity className="w-5 h-5 mr-2 text-kamui-accent" />
+                Performance History
+              </CardTitle>
+              <CardDescription>Historical performance and projected returns</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Tabs defaultValue="month" className="w-full">
+                <TabsList className="grid w-full max-w-md grid-cols-3 mb-6">
+                  <TabsTrigger value="week">Week</TabsTrigger>
+                  <TabsTrigger value="month">Month</TabsTrigger>
+                  <TabsTrigger value="year">Year</TabsTrigger>
+                </TabsList>
+                <TabsContent value="week" className="h-[300px]">
+                  <PerformanceChart period="week" />
+                </TabsContent>
+                <TabsContent value="month" className="h-[300px]">
+                  <PerformanceChart period="month" />
+                </TabsContent>
+                <TabsContent value="year" className="h-[300px]">
+                  <PerformanceChart period="year" />
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Strategy Details */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           <div className="lg:col-span-2">
-            <Card className="bg-gradient-card border-white/5">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <div>
-                  <CardTitle>Performance Metrics</CardTitle>
-                  <CardDescription>Historical and projected returns</CardDescription>
-                </div>
-                <Tabs defaultValue="month" onValueChange={handleChartPeriodChange}>
-                  <TabsList className="bg-white/5">
-                    <TabsTrigger value="week">Week</TabsTrigger>
-                    <TabsTrigger value="month">Month</TabsTrigger>
-                    <TabsTrigger value="year">Year</TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="h-[300px] glass-card neon-border border-kamui-accent/30 p-4">
-                  <PerformanceChart period={chartPeriod} />
-                </div>
-
-                {/* Performance metrics */}
-                <div className="grid grid-cols-4 gap-4 mt-6">
-                  {Object.entries(strategy.returns).map(([period, value]) => (
-                    <div key={period} className="glass-card p-4 text-center">
-                      <p className="text-white/60 text-xs mb-1 capitalize">{period} Return</p>
-                      <p className={`text-xl font-semibold ${value > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                        {value > 0 ? '+' : ''}{value}%
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Strategy Parameters */}
-            <Card className="bg-gradient-card border-white/5 mt-8">
+            <Card className="bg-gradient-card border-white/5 h-full">
               <CardHeader>
-                <CardTitle>AI Parameters</CardTitle>
-                <CardDescription>Optimized settings for maximum performance</CardDescription>
+                <CardTitle className="flex items-center text-xl">
+                  <Brain className="w-5 h-5 mr-2 text-kamui-teal" />
+                  Strategy Analysis
+                </CardTitle>
+                <CardDescription>AI-driven insights and recommendations</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-6">
                   <div className="glass-card p-4">
-                    <p className="text-white/60 text-sm mb-2">Risk Tolerance</p>
-                    <div className="w-full bg-white/10 rounded-full h-2 mb-1">
-                      <div className="bg-gradient-to-r from-green-400 to-yellow-400 h-2 rounded-full" style={{width: '60%'}}></div>
-                    </div>
-                    <div className="flex justify-between text-xs text-white/40">
-                      <span>Conservative</span>
-                      <span>Moderate</span>
-                      <span>Aggressive</span>
-                    </div>
+                    <h3 className="font-medium text-kamui-accent mb-2">Current Market Conditions</h3>
+                    <p className="text-white/80 text-sm">
+                      The market is showing low volatility with strong directional trends. The AI model is confident in its predictions and has optimized for stable returns.
+                    </p>
                   </div>
-
+                  
                   <div className="glass-card p-4">
-                    <p className="text-white/60 text-sm mb-2">Volatility Control</p>
-                    <div className="w-full bg-white/10 rounded-full h-2 mb-1">
-                      <div className="bg-gradient-to-r from-blue-400 to-kamui-purple h-2 rounded-full" style={{width: '75%'}}></div>
-                    </div>
-                    <div className="flex justify-between text-xs text-white/40">
-                      <span>Low</span>
-                      <span>Medium</span>
-                      <span>High</span>
-                    </div>
-                  </div>
-
-                  <div className="glass-card p-4">
-                    <p className="text-white/60 text-sm mb-2">Rebalancing Frequency</p>
-                    <div className="w-full bg-white/10 rounded-full h-2 mb-1">
-                      <div className="bg-gradient-to-r from-kamui-teal to-kamui-accent h-2 rounded-full" style={{width: '40%'}}></div>
-                    </div>
-                    <div className="flex justify-between text-xs text-white/40">
-                      <span>Daily</span>
-                      <span>Weekly</span>
-                      <span>Monthly</span>
-                    </div>
-                  </div>
-
-                  <div className="glass-card p-4">
-                    <p className="text-white/60 text-sm mb-2">Asset Diversity</p>
-                    <div className="w-full bg-white/10 rounded-full h-2 mb-1">
-                      <div className="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full" style={{width: '85%'}}></div>
-                    </div>
-                    <div className="flex justify-between text-xs text-white/40">
-                      <span>Focused</span>
-                      <span>Balanced</span>
-                      <span>Diverse</span>
-                    </div>
+                    <h3 className="font-medium text-kamui-teal mb-2">Recent Optimizations</h3>
+                    <p className="text-white/80 text-sm mb-4">
+                      In the last 7 days, the AI has made 4 key optimizations to adapt to changing market conditions:
+                    </p>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-start gap-2">
+                        <div className="w-4 h-4 rounded-full bg-kamui-accent/20 flex items-center justify-center mt-0.5">
+                          <div className="w-1.5 h-1.5 bg-kamui-accent rounded-full"></div>
+                        </div>
+                        <span className="text-white/80">Adjusted spread parameters by 0.05% to capture improved market liquidity</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="w-4 h-4 rounded-full bg-kamui-teal/20 flex items-center justify-center mt-0.5">
+                          <div className="w-1.5 h-1.5 bg-kamui-teal rounded-full"></div>
+                        </div>
+                        <span className="text-white/80">Increased position size by 5% in response to reduced volatility</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="w-4 h-4 rounded-full bg-kamui-purple/20 flex items-center justify-center mt-0.5">
+                          <div className="w-1.5 h-1.5 bg-kamui-purple rounded-full"></div>
+                        </div>
+                        <span className="text-white/80">Modified rebalancing threshold to optimize gas costs</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="w-4 h-4 rounded-full bg-kamui-accent/20 flex items-center justify-center mt-0.5">
+                          <div className="w-1.5 h-1.5 bg-kamui-accent rounded-full"></div>
+                        </div>
+                        <span className="text-white/80">Added new correlation parameter to improve risk model</span>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
-
-          {/* Strategy Details Sidebar */}
+          
           <div>
-            <Card className="bg-gradient-card border-white/5 sticky top-20">
+            <Card className="bg-gradient-card border-white/5 h-full">
               <CardHeader>
-                <CardTitle>Strategy Details</CardTitle>
-                <CardDescription>Key information and settings</CardDescription>
+                <CardTitle className="flex items-center text-xl">
+                  <Settings className="w-5 h-5 mr-2 text-kamui-purple" />
+                  Strategy Configuration
+                </CardTitle>
+                <CardDescription>Current parameters and settings</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="glass-card p-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-white/60">AI Status</p>
-                      <div className="flex items-center">
-                        <span className="h-2 w-2 rounded-full bg-green-400 mr-2"></span>
-                        <span className="text-green-400 font-medium">{strategy.aiStatus}</span>
-                      </div>
-                    </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-white/70">Risk Level</span>
+                    <span className="text-kamui-teal font-medium">Medium</span>
                   </div>
-
-                  <div className="glass-card p-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-white/60">Risk Level</p>
-                      <span className="text-white font-medium">{strategy.risk}</span>
-                    </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-white/70">Auto-optimize</span>
+                    <span className="text-kamui-accent font-medium">Enabled</span>
                   </div>
-
-                  <div className="glass-card p-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-white/60">Last Optimized</p>
-                      <span className="text-white font-medium">{strategy.lastOptimized}</span>
-                    </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-white/70">Rebalance Frequency</span>
+                    <span className="text-white font-medium">Every 24h</span>
                   </div>
-
-                  <div className="glass-card p-4">
-                    <p className="text-white/60 mb-2">Assets Utilized</p>
-                    <div className="flex flex-wrap gap-2">
-                      {strategy.assets.map(asset => (
-                        <span key={asset} className="px-2 py-1 bg-white/10 rounded-md text-sm">
-                          {asset}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-white/70">Target APY</span>
+                    <span className="text-white font-medium">40% - 50%</span>
                   </div>
-
-                  <div className="glass-card p-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-white/60">Created By</p>
-                      <span className="text-white font-medium">{strategy.creator}</span>
-                    </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-white/70">Max Drawdown</span>
+                    <span className="text-white font-medium">15%</span>
                   </div>
-
-                  <div className="mt-6">
-                    <Button variant="outline" className="w-full glass-button text-kamui-accent hover-scale">
-                      <Shield className="mr-2 h-4 w-4" />
-                      View Risk Analysis
-                    </Button>
+                  <div className="flex justify-between items-center pb-2">
+                    <span className="text-white/70">Active Since</span>
+                    <span className="text-white font-medium">May 15, 2023</span>
                   </div>
+                  
+                  <button className="w-full glass-button px-4 py-2 text-kamui-accent font-medium flex items-center justify-center gap-2 hover-scale mt-4">
+                    <Settings className="w-4 h-4" />
+                    <span>Modify Parameters</span>
+                  </button>
                 </div>
               </CardContent>
             </Card>
