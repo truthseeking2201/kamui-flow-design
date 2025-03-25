@@ -5,9 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DollarSign, Building, Landmark, PieChart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRWAAssets } from '@/hooks/useRWAAssets';
+import { useToast } from '@/hooks/use-toast';
 
 const Portfolio: React.FC = () => {
   const { assetType, setAssetType, assetTypes } = useRWAAssets();
+  const { toast } = useToast();
   
   // Updated portfolio data to reflect RWA assets
   const assets = [
@@ -32,6 +34,20 @@ const Portfolio: React.FC = () => {
     } else {
       return <PieChart className="h-5 w-5 text-kamui-teal" />;
     }
+  };
+
+  const handleAssetClick = (asset: any) => {
+    toast({
+      title: `${asset.name}`,
+      description: `Current value: ${asset.value} (${asset.change >= 0 ? '+' : ''}${asset.change}%)`,
+    });
+  };
+
+  const handleManagePortfolio = () => {
+    toast({
+      title: "Portfolio Management",
+      description: "Opening RWA portfolio management interface",
+    });
   };
 
   return (
@@ -67,7 +83,8 @@ const Portfolio: React.FC = () => {
                 {filteredAssets.map((asset, index) => (
                   <div 
                     key={index} 
-                    className="glass-card p-3 hover-scale transition-all duration-200"
+                    className="glass-card p-3 hover-scale transition-all duration-200 cursor-pointer"
+                    onClick={() => handleAssetClick(asset)}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -104,7 +121,11 @@ const Portfolio: React.FC = () => {
                 ))}
               </div>
               
-              <Button variant="outline" className="w-full mt-4 glass-button text-kamui-accent hover-scale group">
+              <Button 
+                variant="outline" 
+                className="w-full mt-4 glass-button text-kamui-accent hover-scale group"
+                onClick={handleManagePortfolio}
+              >
                 <span>Manage RWA Portfolio</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>

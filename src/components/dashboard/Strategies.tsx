@@ -5,9 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Brain, ChevronRight, Plus, Zap, Building, Landmark, DollarSign } from 'lucide-react';
 import { useRWAAssets } from '@/hooks/useRWAAssets';
+import { useToast } from '@/hooks/use-toast';
 
 const Strategies: React.FC = () => {
   const { assetType, setAssetType, assetTypes } = useRWAAssets();
+  const { toast } = useToast();
   
   const strategies = [
     {
@@ -67,6 +69,20 @@ const Strategies: React.FC = () => {
     }
   };
 
+  const handleNewStrategy = () => {
+    toast({
+      title: "Create Strategy",
+      description: "Opening the AI strategy creation wizard",
+    });
+  };
+
+  const handleViewAllStrategies = () => {
+    toast({
+      title: "Strategies",
+      description: "Loading comprehensive strategy management dashboard",
+    });
+  };
+
   return (
     <Card className="bg-gradient-card border-white/5">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -74,7 +90,11 @@ const Strategies: React.FC = () => {
           <CardTitle>AI Market-Making Strategies</CardTitle>
           <CardDescription>AI-powered RWA liquidity strategies</CardDescription>
         </div>
-        <Button variant="outline" className="glass-button text-kamui-accent hover-scale">
+        <Button 
+          variant="outline" 
+          className="glass-button text-kamui-accent hover-scale"
+          onClick={handleNewStrategy}
+        >
           <Plus className="mr-2 h-4 w-4" />
           New Strategy
         </Button>
@@ -100,6 +120,12 @@ const Strategies: React.FC = () => {
               key={strategy.id} 
               to={`/strategy/${strategy.id}`}
               className="block"
+              onClick={() => {
+                toast({
+                  title: `Strategy Selected: ${strategy.name}`,
+                  description: `Loading detailed view of ${strategy.name} strategy`,
+                })
+              }}
             >
               <div className="glass-card p-4 hover-scale group transition-all duration-200 cursor-pointer">
                 <div className="flex items-center justify-between">
@@ -135,12 +161,14 @@ const Strategies: React.FC = () => {
           ))}
         </div>
         
-        <Link to="/strategies" className="block w-full">
-          <Button variant="outline" className="w-full mt-4 glass-button text-kamui-accent hover-scale group">
-            <span>View All Strategies</span>
-            <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </Link>
+        <Button 
+          variant="outline" 
+          className="w-full mt-4 glass-button text-kamui-accent hover-scale group"
+          onClick={handleViewAllStrategies}
+        >
+          <span>View All Strategies</span>
+          <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+        </Button>
       </CardContent>
     </Card>
   );

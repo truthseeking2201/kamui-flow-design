@@ -68,9 +68,27 @@ const AIRecommendations: React.FC = () => {
   };
 
   const handleRecommendationAction = (index: number) => {
+    const recommendation = recommendations[index];
+    let toastMessage = "";
+    let actionDetail = "";
+    
+    switch (recommendation.agentType) {
+      case "master":
+        actionDetail = "Master AI is rebalancing your portfolio, optimizing for current market conditions";
+        break;
+      case "intelligence":
+        actionDetail = "Intelligence AI is processing your request and analyzing market data";
+        break;
+      case "user":
+        actionDetail = "User AI Agent is being configured with your selected parameters";
+        break;
+      default:
+        actionDetail = "AI is processing your request";
+    }
+    
     toast({
-      title: "AI Action Taken",
-      description: `Following recommendation: ${recommendations[index].title}`,
+      title: `${recommendation.title}`,
+      description: actionDetail,
       variant: "default",
     });
   };
@@ -160,7 +178,14 @@ const AIRecommendations: React.FC = () => {
           ))}
         </div>
         
-        <Button variant="outline" className="w-full mt-4 glass-button text-kamui-accent hover-scale">
+        <Button 
+          variant="outline" 
+          className="w-full mt-4 glass-button text-kamui-accent hover-scale"
+          onClick={() => toast({
+            title: "AI Insights",
+            description: "Loading complete AI insights dashboard",
+          })}
+        >
           View All AI Insights
         </Button>
       </CardContent>
