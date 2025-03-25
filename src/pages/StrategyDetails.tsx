@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,10 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Brain, ChevronLeft, LineChart, Settings, Shield, TrendingUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import PerformanceChart from '@/components/PerformanceChart';
 
 const StrategyDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
+  const [chartPeriod, setChartPeriod] = useState<'week' | 'month' | 'year'>('month');
   
   // Mock strategy data (would come from API in a real app)
   const strategy = {
@@ -36,6 +38,10 @@ const StrategyDetails: React.FC = () => {
       description: "AI agent is now running this strategy with your portfolio",
       variant: "default",
     });
+  };
+
+  const handleChartPeriodChange = (value: string) => {
+    setChartPeriod(value as 'week' | 'month' | 'year');
   };
 
   return (
@@ -81,7 +87,7 @@ const StrategyDetails: React.FC = () => {
                   <CardTitle>Performance Metrics</CardTitle>
                   <CardDescription>Historical and projected returns</CardDescription>
                 </div>
-                <Tabs defaultValue="month">
+                <Tabs defaultValue="month" onValueChange={handleChartPeriodChange}>
                   <TabsList className="bg-white/5">
                     <TabsTrigger value="week">Week</TabsTrigger>
                     <TabsTrigger value="month">Month</TabsTrigger>
@@ -90,12 +96,8 @@ const StrategyDetails: React.FC = () => {
                 </Tabs>
               </CardHeader>
               <CardContent className="p-6">
-                <div className="h-[300px] flex items-center justify-center glass-card neon-border border-kamui-accent/30">
-                  <div className="text-center">
-                    <LineChart className="h-10 w-10 text-kamui-accent mx-auto mb-3 opacity-50" />
-                    <p className="text-white/60 mb-2">Performance Chart</p>
-                    <p className="text-xs text-white/40">(Visualization will be implemented here)</p>
-                  </div>
+                <div className="h-[300px] glass-card neon-border border-kamui-accent/30 p-4">
+                  <PerformanceChart period={chartPeriod} />
                 </div>
 
                 {/* Performance metrics */}
