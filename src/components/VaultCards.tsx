@@ -1,38 +1,48 @@
 
 import React from 'react';
-import { ArrowRight, TrendingUp, ShieldCheck, Zap } from 'lucide-react';
+import { ArrowRight, Home, Coins, FileText, TrendingUp } from 'lucide-react';
 
 const VaultCards: React.FC = () => {
   const vaults = [
     {
-      icon: <ShieldCheck className="w-6 h-6 text-blue-400" />,
-      title: 'Stable Return',
-      description: 'Low-risk strategies focusing on stable, consistent returns with minimal volatility.',
-      apy: '10-15%',
+      icon: <Home className="w-6 h-6 text-blue-400" />,
+      title: 'Tokenized Real Estate',
+      description: 'Market-making strategies for tokenized real estate assets with stable, consistent returns.',
+      apy: '8-12%',
       risk: 'Low',
       color: 'from-blue-500/20 to-blue-600/20',
       borderColor: 'border-blue-500/30',
       delay: 0
     },
     {
-      icon: <TrendingUp className="w-6 h-6 text-kamui-teal" />,
-      title: 'Balanced Growth',
-      description: 'Balanced approach with moderate risk for long-term sustainable growth.',
-      apy: '20-30%',
+      icon: <Coins className="w-6 h-6 text-kamui-teal" />,
+      title: 'Precious Metals',
+      description: 'Liquidity provision for tokenized gold, silver and other precious metals with balanced returns.',
+      apy: '10-18%',
       risk: 'Medium',
       color: 'from-kamui-teal/20 to-green-500/20',
       borderColor: 'border-kamui-teal/30',
       delay: 0.1
     },
     {
-      icon: <Zap className="w-6 h-6 text-kamui-accent" />,
-      title: 'High Yield',
-      description: 'Aggressive strategies targeting maximum returns with higher risk tolerance.',
-      apy: '40-60%',
+      icon: <FileText className="w-6 h-6 text-kamui-purple" />,
+      title: 'Fixed Income & Bonds',
+      description: 'Market-making for tokenized bonds and fixed income securities with competitive yields.',
+      apy: '15-25%',
+      risk: 'Medium',
+      color: 'from-kamui-purple/20 to-indigo-500/20',
+      borderColor: 'border-kamui-purple/30',
+      delay: 0.2
+    },
+    {
+      icon: <TrendingUp className="w-6 h-6 text-kamui-accent" />,
+      title: 'Tokenized Equities',
+      description: 'High-frequency market-making for tokenized stocks and equity assets with higher returns.',
+      apy: '25-40%',
       risk: 'High',
       color: 'from-kamui-accent/20 to-kamui-purple/20',
       borderColor: 'border-kamui-accent/30',
-      delay: 0.2
+      delay: 0.3
     }
   ];
 
@@ -42,15 +52,15 @@ const VaultCards: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="font-display font-bold text-3xl md:text-4xl mb-4 animate-fade-in">
-            Liquidity <span className="text-gradient">Vaults</span>
+            RWA <span className="text-gradient">Liquidity Vaults</span>
           </h2>
           <p className="text-white/70 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            Choose from our range of AI-managed liquidity vaults, each designed to meet different investment goals and risk tolerances.
+            Choose from our range of AI-managed RWA liquidity vaults, each designed for different tokenized real-world asset classes.
           </p>
         </div>
 
         {/* Vaults Grid */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {vaults.map((vault, index) => (
             <div 
               key={index}
@@ -76,7 +86,7 @@ const VaultCards: React.FC = () => {
                 </div>
                 
                 <button className="w-full glass-button py-3 font-medium text-white flex items-center justify-center gap-2 group">
-                  <span>Deposit Assets</span>
+                  <span>Provide Liquidity</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>

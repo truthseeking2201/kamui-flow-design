@@ -6,26 +6,26 @@ const Features: React.FC = () => {
   const features = [
     {
       icon: <Brain className="w-8 h-8 text-kamui-accent" />,
-      title: "AI Agent Infrastructure",
-      description: "Our Master AI Agent manages centralized liquidity across multiple platforms, optimizing asset allocation and market-making operations in real-time.",
+      title: "Master AI Agent",
+      description: "Our Master AI Agent manages centralized liquidity across multiple tokenized Real-World Assets, optimizing asset allocation and market-making operations in real-time.",
       delay: 0
     },
     {
       icon: <Layers className="w-8 h-8 text-kamui-purple" />,
-      title: "Advanced Strategy Marketplace",
-      description: "Explore, access, and monetize AI-driven investment strategies with visual performance metrics and token incentives for contributors.",
+      title: "Intelligence Agents",
+      description: "Specialized Intelligence Agents collect market data, track liquidity conditions, and provide predictive analytics to enhance transaction accuracy and strategy optimization.",
       delay: 0.1
     },
     {
       icon: <LineChart className="w-8 h-8 text-kamui-teal" />,
-      title: "Strategy Simulation",
-      description: "Run comprehensive Agent-Based Modeling and Monte Carlo simulations with detailed backtesting for DeFi-specific risk analysis.",
+      title: "User AI Agents",
+      description: "Execute individual quant and HFT strategies based on Master AI guidelines, generating organic trading volume for tokenized Real-World Assets.",
       delay: 0.2
     },
     {
       icon: <Shield className="w-8 h-8 text-kamui-pink" />,
-      title: "Vault Management",
-      description: "Utilize categorized liquidity vaults with simple drag-and-drop deposits and dynamic real-time visual feedback on portfolios.",
+      title: "RWA Vault Management",
+      description: "Categorized liquidity vaults for tokenized real estate, gold, bonds, stocks, and other real-world assets with simplified deposits and real-time performance feedback.",
       delay: 0.3
     }
   ];
@@ -36,10 +36,10 @@ const Features: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="font-display font-bold text-3xl md:text-4xl mb-4 animate-fade-in">
-            Core <span className="text-gradient">Functionalities</span>
+            AI <span className="text-gradient">Hierarchy</span>
           </h2>
           <p className="text-white/70 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            Kamui AI combines advanced artificial intelligence with intuitive user experience to revolutionize financial market-making and investment strategies.
+            Kamui AI combines a three-tiered AI structure with intuitive user experience to revolutionize RWA market-making and investment strategies.
           </p>
         </div>
 

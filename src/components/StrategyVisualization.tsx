@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Brain, RefreshCw, TrendingUp, ChevronRight } from 'lucide-react';
+import { Brain, RefreshCw, TrendingUp, Database, ChevronRight } from 'lucide-react';
 
 const StrategyVisualization: React.FC = () => {
   return (
@@ -9,10 +9,10 @@ const StrategyVisualization: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="font-display font-bold text-3xl md:text-4xl mb-4 animate-fade-in">
-            AI Strategy <span className="text-gradient">Loops</span>
+            AI Agent <span className="text-gradient">Workflow</span>
           </h2>
           <p className="text-white/70 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            Explore our advanced AI loops that power our market-making strategies, optimizing your portfolio in real-time.
+            Explore our advanced AI operational workflow that powers our RWA market-making strategies, optimizing liquidity and returns in real-time.
           </p>
         </div>
 
@@ -84,15 +84,15 @@ const StrategyVisualization: React.FC = () => {
             {/* Strategy Nodes */}
             <div className="absolute top-[50px] left-1/2 transform -translate-x-1/2 glass-card p-4 rounded-lg neon-border animate-fade-in hover-scale" style={{ animationDelay: '0.2s' }}>
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-kamui-teal" />
-                <span className="font-medium">Market Analysis</span>
+                <Database className="w-5 h-5 text-kamui-teal" />
+                <span className="font-medium">RWA Data Collection</span>
               </div>
             </div>
             
             <div className="absolute top-1/2 right-[20px] transform -translate-y-1/2 glass-card p-4 rounded-lg neon-border animate-fade-in hover-scale" style={{ animationDelay: '0.4s' }}>
               <div className="flex items-center gap-2">
-                <RefreshCw className="w-5 h-5 text-kamui-purple" />
-                <span className="font-medium">Strategy Execution</span>
+                <TrendingUp className="w-5 h-5 text-kamui-purple" />
+                <span className="font-medium">Market-Making Execution</span>
               </div>
             </div>
             
@@ -131,7 +131,7 @@ const StrategyVisualization: React.FC = () => {
         {/* Call to action */}
         <div className="text-center mt-12 animate-fade-in" style={{ animationDelay: '1s' }}>
           <button className="glass-button px-6 py-3 text-kamui-accent inline-flex items-center gap-2 hover-scale group">
-            <span>Explore strategy marketplace</span>
+            <span>Explore RWA strategy marketplace</span>
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>

@@ -9,10 +9,12 @@ interface LayoutProps {
   hideNav?: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, hideNav }) => {
+const Layout: React.FC<LayoutProps> = ({ children, hideNav = false }) => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
-  const shouldShowNav = hideNav ? false : isHomePage;
+  
+  // Only show navigation on the homepage and when not explicitly hidden
+  const shouldShowNav = !hideNav && isHomePage;
 
   return (
     <div className="min-h-screen w-full bg-kamui-dark text-foreground overflow-hidden relative">
