@@ -36,23 +36,28 @@ const Navigation: React.FC = () => {
           <Link to="/" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
             Home
           </Link>
-          <Link to="/" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
+          <Link to="/#features" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
             Features
           </Link>
-          <Link to="/" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
+          <Link to="/#strategy" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
             Strategy
           </Link>
-          <Link to="/" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
+          <Link to="/#vaults" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
             Vaults
+          </Link>
+          <Link to="/dashboard" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
+            Dashboard
           </Link>
         </nav>
 
         {/* CTA Button */}
         <div className="hidden md:block">
-          <button className="glass-button px-5 py-2 text-kamui-accent font-medium flex items-center gap-2 hover-scale">
-            <span>Launch App</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
+          <Link to="/dashboard">
+            <button className="glass-button px-5 py-2 text-kamui-accent font-medium flex items-center gap-2 hover-scale">
+              <span>Launch App</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -79,30 +84,39 @@ const Navigation: React.FC = () => {
             Home
           </Link>
           <Link
-            to="/"
+            to="/#features"
             className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
             onClick={() => setIsMenuOpen(false)}
           >
             Features
           </Link>
           <Link
-            to="/"
+            to="/#strategy"
             className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
             onClick={() => setIsMenuOpen(false)}
           >
             Strategy
           </Link>
           <Link
-            to="/"
+            to="/#vaults"
             className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
             onClick={() => setIsMenuOpen(false)}
           >
             Vaults
           </Link>
-          <button className="glass-button px-6 py-3 mt-4 text-kamui-accent font-medium flex items-center gap-2 hover-scale">
-            <span>Launch App</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
+          <Link
+            to="/dashboard"
+            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Dashboard
+          </Link>
+          <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
+            <button className="glass-button px-6 py-3 mt-4 text-kamui-accent font-medium flex items-center gap-2 hover-scale">
+              <span>Launch App</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </Link>
         </nav>
       </div>
     </header>
