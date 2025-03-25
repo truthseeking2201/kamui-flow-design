@@ -20,64 +20,65 @@ const Analytics: React.FC = () => {
               <TabsTrigger value="activity">Activity</TabsTrigger>
               <TabsTrigger value="comparison">Comparison</TabsTrigger>
             </TabsList>
+          
+            <CardContent>
+              <TabsContent value="returns">
+                <div className="h-[350px] flex items-center justify-center glass-card neon-border border-kamui-accent/30 mb-4">
+                  <div className="text-center">
+                    <LineChart className="h-10 w-10 text-kamui-accent mx-auto mb-3 opacity-50" />
+                    <p className="text-white/60 mb-2">Returns Over Time</p>
+                    <p className="text-xs text-white/40">(Visualization will be implemented here)</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { label: "Daily", value: "+0.8%", trend: "up" },
+                    { label: "Weekly", value: "+4.2%", trend: "up" },
+                    { label: "Monthly", value: "+16.7%", trend: "up" },
+                    { label: "YTD", value: "+38.2%", trend: "up" }
+                  ].map((metric, index) => (
+                    <div key={index} className="glass-card p-3 text-center">
+                      <p className="text-white/60 text-xs mb-1">{metric.label}</p>
+                      <div className="flex items-center justify-center">
+                        <p className="text-lg font-semibold text-green-400">{metric.value}</p>
+                        {metric.trend === "up" ? (
+                          <TrendingUp className="h-4 w-4 text-green-400 ml-1" />
+                        ) : (
+                          <TrendingUp className="h-4 w-4 text-red-400 ml-1 transform rotate-180" />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="activity">
+                <div className="h-[350px] flex items-center justify-center glass-card neon-border border-kamui-accent/30">
+                  <div className="text-center">
+                    <BarChart3 className="h-10 w-10 text-kamui-purple mx-auto mb-3 opacity-50" />
+                    <p className="text-white/60 mb-2">Trading Activity</p>
+                    <p className="text-xs text-white/40">(Visualization will be implemented here)</p>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="comparison">
+                <div className="h-[350px] flex items-center justify-center glass-card neon-border border-kamui-accent/30">
+                  <div className="text-center">
+                    <PieChart className="h-10 w-10 text-kamui-teal mx-auto mb-3 opacity-50" />
+                    <p className="text-white/60 mb-2">Strategy Comparison</p>
+                    <p className="text-xs text-white/40">(Visualization will be implemented here)</p>
+                  </div>
+                </div>
+              </TabsContent>
+            </CardContent>
           </Tabs>
           <Button variant="outline" size="icon" className="glass-button hover-scale">
             <Download className="h-4 w-4 text-kamui-accent" />
           </Button>
         </div>
       </CardHeader>
-      <CardContent>
-        <TabsContent value="returns" className="mt-0">
-          <div className="h-[350px] flex items-center justify-center glass-card neon-border border-kamui-accent/30 mb-4">
-            <div className="text-center">
-              <LineChart className="h-10 w-10 text-kamui-accent mx-auto mb-3 opacity-50" />
-              <p className="text-white/60 mb-2">Returns Over Time</p>
-              <p className="text-xs text-white/40">(Visualization will be implemented here)</p>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Daily", value: "+0.8%", trend: "up" },
-              { label: "Weekly", value: "+4.2%", trend: "up" },
-              { label: "Monthly", value: "+16.7%", trend: "up" },
-              { label: "YTD", value: "+38.2%", trend: "up" }
-            ].map((metric, index) => (
-              <div key={index} className="glass-card p-3 text-center">
-                <p className="text-white/60 text-xs mb-1">{metric.label}</p>
-                <div className="flex items-center justify-center">
-                  <p className="text-lg font-semibold text-green-400">{metric.value}</p>
-                  {metric.trend === "up" ? (
-                    <TrendingUp className="h-4 w-4 text-green-400 ml-1" />
-                  ) : (
-                    <TrendingUp className="h-4 w-4 text-red-400 ml-1 transform rotate-180" />
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="activity" className="mt-0">
-          <div className="h-[350px] flex items-center justify-center glass-card neon-border border-kamui-accent/30">
-            <div className="text-center">
-              <BarChart3 className="h-10 w-10 text-kamui-purple mx-auto mb-3 opacity-50" />
-              <p className="text-white/60 mb-2">Trading Activity</p>
-              <p className="text-xs text-white/40">(Visualization will be implemented here)</p>
-            </div>
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="comparison" className="mt-0">
-          <div className="h-[350px] flex items-center justify-center glass-card neon-border border-kamui-accent/30">
-            <div className="text-center">
-              <PieChart className="h-10 w-10 text-kamui-teal mx-auto mb-3 opacity-50" />
-              <p className="text-white/60 mb-2">Strategy Comparison</p>
-              <p className="text-xs text-white/40">(Visualization will be implemented here)</p>
-            </div>
-          </div>
-        </TabsContent>
-      </CardContent>
     </Card>
   );
 };
