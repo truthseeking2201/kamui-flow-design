@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const MarketplaceStrategies: React.FC = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   
@@ -104,7 +105,6 @@ const MarketplaceStrategies: React.FC = () => {
     },
   ];
 
-  // Filter strategies based on search query and category
   const filteredStrategies = strategies.filter(strategy => {
     const matchesSearch = strategy.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
       strategy.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -150,6 +150,7 @@ const MarketplaceStrategies: React.FC = () => {
       title: "Deploying Strategy",
       description: `Setting up ${name} for your portfolio`,
     });
+    navigate(`/deploy-strategy/${id}`);
   };
 
   const handleCreateStrategy = () => {
@@ -157,6 +158,7 @@ const MarketplaceStrategies: React.FC = () => {
       title: "Create Strategy",
       description: "Opening the AI strategy creation wizard",
     });
+    navigate('/create-strategy');
   };
 
   return (

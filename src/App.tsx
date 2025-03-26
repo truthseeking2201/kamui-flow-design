@@ -14,6 +14,8 @@ import Flows from "./pages/Flows";
 import AssetOnboarding from "./pages/AssetOnboarding";
 import LaunchPools from "./pages/LaunchPools";
 import LaunchPoolDetails from "./pages/LaunchPoolDetails";
+import CreateStrategy from "./pages/CreateStrategy";
+import DeployStrategy from "./pages/DeployStrategy";
 import NotFound from "./pages/NotFound";
 
 // Create a new QueryClient instance
@@ -31,6 +33,8 @@ const App: React.FC = () => {
               <Route path="/" element={<Index />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/strategy/:id" element={<StrategyDetails />} />
+              <Route path="/create-strategy" element={<CreateStrategy />} />
+              <Route path="/deploy-strategy/:id" element={<DeployStrategy />} />
               <Route path="/intelligence-agents" element={<IntelligenceAgents />} />
               <Route path="/agent/:id" element={<AgentDetails />} />
               <Route path="/flows" element={<Flows />} />
