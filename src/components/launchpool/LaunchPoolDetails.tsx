@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -73,7 +72,6 @@ const LaunchPoolDetails: React.FC = () => {
   const [isInvesting, setIsInvesting] = useState(false);
   const [investmentAmount, setInvestmentAmount] = useState('');
 
-  // Mock data for the selected launch pool
   const launchPool: LaunchPool = {
     id: id || "1",
     name: id === "2" ? "Precious Metals Basket" : id === "3" ? "Asia Pacific REIT Index" : id === "4" ? "Corporate Bond Portfolio" : "Manhattan Luxury Real Estate Fund",
@@ -163,7 +161,6 @@ const LaunchPoolDetails: React.FC = () => {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
           <Link to="/launch-pools" className="text-white/70 hover:text-white flex items-center mb-4 group">
@@ -214,7 +211,6 @@ const LaunchPoolDetails: React.FC = () => {
               <Button 
                 onClick={handleInvest}
                 className="bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale w-full sm:w-auto"
-                disabled={launchPool.status === 'completed'}
               >
                 <Wallet className="mr-2 h-4 w-4" />
                 Invest Now
@@ -238,7 +234,6 @@ const LaunchPoolDetails: React.FC = () => {
         </div>
       </div>
       
-      {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-gradient-card border-white/5">
           <CardHeader className="pb-2">
@@ -296,7 +291,6 @@ const LaunchPoolDetails: React.FC = () => {
         </Card>
       </div>
       
-      {/* Tabs Content */}
       <Tabs defaultValue="overview" onValueChange={handleTabChange} className="w-full">
         <TabsList className="bg-white/5 mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -305,7 +299,6 @@ const LaunchPoolDetails: React.FC = () => {
           <TabsTrigger value="audits">Audits & Security</TabsTrigger>
         </TabsList>
         
-        {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6">
           <Card className="bg-gradient-card border-white/5">
             <CardHeader>
@@ -439,7 +432,6 @@ const LaunchPoolDetails: React.FC = () => {
           </Card>
         </TabsContent>
         
-        {/* Documents Tab */}
         <TabsContent value="documents" className="space-y-6">
           <Card className="bg-gradient-card border-white/5">
             <CardHeader>
@@ -495,7 +487,6 @@ const LaunchPoolDetails: React.FC = () => {
           </Card>
         </TabsContent>
         
-        {/* Market Making Tab */}
         <TabsContent value="market-making" className="space-y-6">
           <Card className="bg-gradient-card border-white/5">
             <CardHeader>
@@ -590,7 +581,6 @@ const LaunchPoolDetails: React.FC = () => {
           </Card>
         </TabsContent>
         
-        {/* Audits Tab */}
         <TabsContent value="audits" className="space-y-6">
           <Card className="bg-gradient-card border-white/5">
             <CardHeader>
