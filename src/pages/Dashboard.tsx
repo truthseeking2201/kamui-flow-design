@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { Wallet, Brain, Info, LogOut, Layers, LineChart, Users, AlertCircle, Database, Settings } from 'lucide-react';
+import Building from '../components/Building';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Portfolio from '../components/dashboard/Portfolio';
