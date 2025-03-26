@@ -1,431 +1,678 @@
 
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  ArrowLeft, Building, Calendar, ChevronRight, Clock, 
-  DollarSign, FileText, HelpCircle, Info, Landmark, 
-  Layers, Percent, Shield, TicketPercent, Timer, TrendingUp, 
-  Users, Wallet 
+  Building, 
+  Calendar, 
+  ChevronLeft, 
+  Clock, 
+  Gem, 
+  Hourglass, 
+  Info, 
+  Landmark, 
+  LineChart, 
+  Percent, 
+  TicketPercent, 
+  Timer, 
+  TrendingUp, 
+  Users, 
+  Wallet,
+  ClipboardCheck,
+  Brain,
+  ArrowRight,
+  File,
+  Shield
 } from 'lucide-react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Progress } from "@/components/ui/progress";
 
-const LaunchPoolDetailView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  
-  // Mock data - in a real app, this would be fetched based on the ID
-  const poolData = {
-    id: id,
-    name: id === "1" ? "Manhattan Luxury Real Estate Fund" : 
-          id === "2" ? "Precious Metals Basket" : 
-          id === "3" ? "Asia Pacific REIT Index" : 
-          "Corporate Bond Portfolio",
-    assetType: id === "1" ? "real-estate" : 
-               id === "2" ? "precious-metals" : 
-               id === "3" ? "real-estate" : 
-               "fixed-income",
-    description: id === "1" ? "Premium residential properties in Manhattan" : 
-                 id === "2" ? "Diversified basket of gold, silver, and platinum" : 
-                 id === "3" ? "Tokenized REIT investments across APAC region" : 
-                 "Investment-grade corporate bonds",
-    longDescription: "This launch pool represents a unique opportunity to participate in tokenized real-world assets with high-yield potential. The asset pool has undergone rigorous due diligence and verification by our team of experts, and is now available for investment through our platform's market-making strategies.",
-    totalValue: id === "1" ? "$15M" : id === "2" ? "$8M" : id === "3" ? "$12M" : "$20M",
-    status: id === "1" ? "active" : id === "2" ? "upcoming" : id === "3" ? "active" : "completed",
-    participantsCount: id === "1" ? 178 : id === "2" ? 85 : id === "3" ? 142 : 256,
-    duration: id === "1" ? "30 days" : id === "2" ? "14 days" : id === "3" ? "21 days" : "45 days",
-    startDate: id === "1" ? "2023-08-15" : id === "2" ? "2023-09-01" : id === "3" ? "2023-08-10" : "2023-07-01",
-    endDate: id === "1" ? "2023-09-15" : id === "2" ? "2023-09-15" : id === "3" ? "2023-08-31" : "2023-08-15",
-    targetApy: id === "1" ? 22 : id === "2" ? 18 : id === "3" ? 24 : 16,
-    minInvestment: id === "1" ? "$5,000" : id === "2" ? "$2,500" : id === "3" ? "$10,000" : "$7,500",
-    progress: id === "1" ? 68 : id === "2" ? 0 : id === "3" ? 45 : 100,
-    riskLevel: id === "1" ? "Medium" : id === "2" ? "Medium-High" : id === "3" ? "Medium" : "Low",
-    liquidityLockup: id === "1" ? "90 days" : id === "2" ? "60 days" : id === "3" ? "120 days" : "30 days",
-    tokenizationStatus: id === "1" ? "Complete" : id === "2" ? "Pending" : id === "3" ? "Complete" : "Complete",
-    audited: id === "1" || id === "3" || id === "4",
-    assetImages: ["https://placehold.co/600x400", "https://placehold.co/600x400", "https://placehold.co/600x400"],
-    documents: [
-      { name: "Legal Framework", url: "#" },
-      { name: "Asset Valuation Report", url: "#" },
-      { name: "Due Diligence Summary", url: "#" },
-    ]
+type LaunchPoolStatus = 'upcoming' | 'active' | 'completed';
+
+interface LaunchPool {
+  id: string;
+  name: string;
+  assetType: string;
+  description: string;
+  totalValue: string;
+  status: LaunchPoolStatus;
+  participantsCount: number;
+  duration: string;
+  startDate: string;
+  targetApy: number;
+  minInvestment: string;
+  detailedDescription?: string;
+  assetIssuer?: string;
+  maturityDate?: string;
+  riskScore?: number;
+  liquidity?: string;
+  documents?: {
+    name: string;
+    type: string;
+    size: string;
+  }[];
+  audits?: {
+    name: string;
+    status: string;
+    date: string;
+  }[];
+  marketMakingParams?: {
+    targetSpread: string;
+    rebalancingFrequency: string;
+    liquidityDepth: string;
+    marketHours: string;
   };
-  
+}
+
+const LaunchPoolDetails: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState('overview');
+  const [isInvesting, setIsInvesting] = useState(false);
+  const [investmentAmount, setInvestmentAmount] = useState('');
+
+  // Mock data for the selected launch pool
+  const launchPool: LaunchPool = {
+    id: id || "1",
+    name: id === "2" ? "Precious Metals Basket" : id === "3" ? "Asia Pacific REIT Index" : id === "4" ? "Corporate Bond Portfolio" : "Manhattan Luxury Real Estate Fund",
+    assetType: id === "2" ? "precious-metals" : id === "3" ? "real-estate" : id === "4" ? "fixed-income" : "real-estate",
+    description: id === "2" ? "Diversified basket of gold, silver, and platinum" : id === "3" ? "Tokenized REIT investments across APAC region" : id === "4" ? "Investment-grade corporate bonds" : "Premium residential properties in Manhattan",
+    totalValue: id === "2" ? "$8M" : id === "3" ? "$12M" : id === "4" ? "$20M" : "$15M",
+    status: id === "2" ? "upcoming" : id === "3" ? "active" : id === "4" ? "completed" : "active",
+    participantsCount: id === "2" ? 85 : id === "3" ? 142 : id === "4" ? 256 : 178,
+    duration: id === "2" ? "14 days" : id === "3" ? "21 days" : id === "4" ? "45 days" : "30 days",
+    startDate: id === "2" ? "2023-09-01" : id === "3" ? "2023-08-10" : id === "4" ? "2023-07-01" : "2023-08-15",
+    targetApy: id === "2" ? 18 : id === "3" ? 24 : id === "4" ? 16 : 22,
+    minInvestment: id === "2" ? "$2,500" : id === "3" ? "$10,000" : id === "4" ? "$7,500" : "$5,000",
+    detailedDescription: "This tokenized real-world asset (RWA) represents a diversified portfolio of premium properties in the Manhattan luxury real estate market. These properties are located in prime neighborhoods with strong historical appreciation and rental yield. The fund focuses on high-end residential buildings with strong income generation potential through both rental yields and capital appreciation.",
+    assetIssuer: "Kamui Real Estate Partners",
+    maturityDate: "2025-08-15",
+    riskScore: 3.5,
+    liquidity: "Medium",
+    documents: [
+      { name: "Offering Memorandum", type: "PDF", size: "2.4 MB" },
+      { name: "Legal Structure", type: "PDF", size: "1.8 MB" },
+      { name: "Financial Projections", type: "Excel", size: "956 KB" },
+      { name: "Property Valuations", type: "PDF", size: "4.2 MB" }
+    ],
+    audits: [
+      { name: "Smart Contract Audit", status: "Passed", date: "2023-07-25" },
+      { name: "Legal Compliance Review", status: "Passed", date: "2023-07-18" },
+      { name: "Property Title Verification", status: "Passed", date: "2023-07-10" }
+    ],
+    marketMakingParams: {
+      targetSpread: "0.5%",
+      rebalancingFrequency: "4 hours",
+      liquidityDepth: "$2.5M",
+      marketHours: "24/7"
+    }
+  };
+
   const getAssetIcon = (type: string) => {
     switch(type) {
       case 'real-estate':
-        return <Building className="h-6 w-6 text-kamui-purple" />;
+        return <Building className="h-5 w-5 text-kamui-purple" />;
       case 'precious-metals':
-        return <Landmark className="h-6 w-6 text-amber-400" />;
+        return <Landmark className="h-5 w-5 text-amber-400" />;
       case 'fixed-income':
-        return <TicketPercent className="h-6 w-6 text-kamui-teal" />;
+        return <TicketPercent className="h-5 w-5 text-kamui-teal" />;
       case 'equities':
       default:
-        return <TrendingUp className="h-6 w-6 text-kamui-accent" />;
+        return <TrendingUp className="h-5 w-5 text-kamui-accent" />;
     }
   };
-  
-  const getStatusLabel = (status: string) => {
+
+  const getStatusBadge = (status: LaunchPoolStatus) => {
     switch(status) {
       case 'active':
-        return "Active - Open for Investment";
+        return <Badge className="px-3 py-1 bg-green-500/20 text-green-400 rounded text-xs flex items-center"><Gem className="w-3 h-3 mr-1" /> Active</Badge>;
       case 'upcoming':
-        return "Upcoming - Opening Soon";
+        return <Badge className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-xs flex items-center"><Hourglass className="w-3 h-3 mr-1" /> Upcoming</Badge>;
       case 'completed':
-        return "Completed - Fully Funded";
-      default:
-        return status;
+        return <Badge className="px-3 py-1 bg-gray-500/20 text-gray-400 rounded text-xs flex items-center"><Timer className="w-3 h-3 mr-1" /> Completed</Badge>;
     }
   };
-  
-  const getStatusColor = (status: string) => {
-    switch(status) {
-      case 'active':
-        return "text-green-400";
-      case 'upcoming':
-        return "text-blue-400";
-      case 'completed':
-        return "text-gray-400";
-      default:
-        return "text-white";
-    }
-  };
-  
+
   const handleInvest = () => {
-    toast({
-      title: "Investment Process Initiated",
-      description: "Opening the investment flow for " + poolData.name,
-    });
-    
-    // In a real app, this would open an investment flow
+    if (isInvesting) {
+      if (!investmentAmount || parseFloat(investmentAmount) < parseFloat(launchPool.minInvestment.replace('$', '').replace(',', ''))) {
+        toast({
+          title: "Invalid investment amount",
+          description: `Minimum investment required is ${launchPool.minInvestment}`,
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      toast({
+        title: "Investment Submitted",
+        description: `Your investment of $${investmentAmount} in ${launchPool.name} has been submitted for processing`,
+      });
+      setIsInvesting(false);
+      setInvestmentAmount('');
+    } else {
+      setIsInvesting(true);
+    }
   };
-  
-  const handleBack = () => {
-    navigate('/launch-pools');
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-start justify-between">
-        <Button 
-          variant="outline" 
-          className="glass-button hover-scale"
-          onClick={handleBack}
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Launch Pools
-        </Button>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+        <div>
+          <Link to="/launch-pools" className="text-white/70 hover:text-white flex items-center mb-4 group">
+            <ChevronLeft className="h-4 w-4 mr-1 group-hover:-translate-x-1 transition-transform" />
+            <span>Back to Launch Pools</span>
+          </Link>
+          <div className="flex flex-wrap items-center gap-3 mb-2">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-kamui-accent/20 to-kamui-purple/20 flex items-center justify-center">
+              {getAssetIcon(launchPool.assetType)}
+            </div>
+            <h1 className="text-2xl font-display font-bold">{launchPool.name}</h1>
+            {getStatusBadge(launchPool.status)}
+          </div>
+          <p className="text-white/70">{launchPool.description}</p>
+        </div>
         
-        {poolData.status === "active" && (
-          <Button 
-            className="bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale"
-            onClick={handleInvest}
-          >
-            <Wallet className="w-4 h-4 mr-2" />
-            Invest Now
-          </Button>
-        )}
-        
-        {poolData.status === "upcoming" && (
+        <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+          {launchPool.status !== 'completed' && (
+            isInvesting ? (
+              <div className="flex w-full gap-2">
+                <div className="relative rounded-md shadow-sm flex-1">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span className="text-white/70 sm:text-sm">$</span>
+                  </div>
+                  <input
+                    type="number"
+                    className="block w-full rounded-md border-0 py-2 pl-7 bg-white/10 text-white shadow-sm ring-1 ring-inset ring-white/20 placeholder:text-white/50 focus:ring-2 focus:ring-inset focus:ring-kamui-accent sm:text-sm sm:leading-6"
+                    placeholder="Amount"
+                    value={investmentAmount}
+                    onChange={(e) => setInvestmentAmount(e.target.value)}
+                  />
+                </div>
+                <Button 
+                  onClick={handleInvest}
+                  className="bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale"
+                >
+                  Confirm
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => setIsInvesting(false)}
+                  className="glass-button"
+                >
+                  Cancel
+                </Button>
+              </div>
+            ) : (
+              <Button 
+                onClick={handleInvest}
+                className="bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale w-full sm:w-auto"
+                disabled={launchPool.status === 'completed'}
+              >
+                <Wallet className="mr-2 h-4 w-4" />
+                Invest Now
+              </Button>
+            )
+          )}
+          
           <Button 
             variant="outline"
-            className="glass-button text-blue-400 hover-scale"
+            className="glass-button text-white/80 w-full sm:w-auto"
             onClick={() => {
               toast({
-                title: "Notification Set",
-                description: "You'll be notified when this pool opens for investment",
+                title: "WhitePaper Downloaded",
+                description: `The whitepaper for ${launchPool.name} has been downloaded`
               });
             }}
           >
-            <Clock className="w-4 h-4 mr-2" />
-            Notify Me When Live
+            <File className="mr-2 h-4 w-4" />
+            Download Whitepaper
           </Button>
-        )}
+        </div>
       </div>
       
-      <Card className="bg-gradient-card border-white/5">
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-kamui-accent/20 to-kamui-purple/20 flex items-center justify-center">
-              {getAssetIcon(poolData.assetType)}
-            </div>
-            <div>
-              <CardTitle className="text-2xl">{poolData.name}</CardTitle>
-              <CardDescription className="flex items-center gap-2">
-                <span className={`font-medium ${getStatusColor(poolData.status)}`}>
-                  {getStatusLabel(poolData.status)}
-                </span>
-                {poolData.audited && (
-                  <span className="text-xs bg-kamui-accent/20 text-kamui-accent px-2 py-0.5 rounded-full flex items-center">
-                    <Shield className="w-3 h-3 mr-1" /> Audited
-                  </span>
-                )}
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-medium text-white mb-2">Asset Overview</h3>
-                <p className="text-white/80">{poolData.longDescription}</p>
-              </div>
-              
-              <div className="glass-card p-4 border border-white/10 rounded-lg">
-                <h4 className="text-md font-medium text-white mb-3">Investment Progress</h4>
-                <Progress value={poolData.progress} className="h-2 mb-2" />
-                <div className="flex justify-between text-sm text-white/70">
-                  <span>{poolData.progress}% Funded</span>
-                  <span>Target: {poolData.totalValue}</span>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div className="glass-card p-4 border border-white/10 rounded-lg">
-                  <h4 className="text-sm text-white/60 mb-1">Minimum Investment</h4>
-                  <p className="text-xl font-medium text-white flex items-center">
-                    <DollarSign className="w-4 h-4 text-kamui-teal mr-1" />
-                    {poolData.minInvestment}
-                  </p>
-                </div>
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="bg-gradient-card border-white/5">
+          <CardHeader className="pb-2">
+            <CardDescription className="flex items-center">
+              <Wallet className="w-4 h-4 mr-2 text-kamui-teal" />
+              Total Value
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CardTitle className="text-2xl font-display">{launchPool.totalValue}</CardTitle>
+            <p className="text-white/60 text-sm">Min: {launchPool.minInvestment}</p>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-gradient-card border-white/5">
+          <CardHeader className="pb-2">
+            <CardDescription className="flex items-center">
+              <Users className="w-4 h-4 mr-2 text-kamui-accent" />
+              Participants
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CardTitle className="text-2xl font-display">{launchPool.participantsCount}</CardTitle>
+            <p className="text-white/60 text-sm">Active investors</p>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-gradient-card border-white/5">
+          <CardHeader className="pb-2">
+            <CardDescription className="flex items-center">
+              <Calendar className="w-4 h-4 mr-2 text-kamui-purple" />
+              Timeline
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CardTitle className="text-2xl font-display">{launchPool.duration}</CardTitle>
+            <p className="text-white/60 text-sm">Started: {launchPool.startDate}</p>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-gradient-card border-white/5">
+          <CardHeader className="pb-2">
+            <CardDescription className="flex items-center">
+              <Percent className="w-4 h-4 mr-2 text-amber-400" />
+              Target APY
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CardTitle className="text-2xl font-display">{launchPool.targetApy}%</CardTitle>
+            <p className="text-white/60 text-sm flex items-center">
+              <Brain className="w-3 h-3 mr-1 text-kamui-teal" />
+              AI optimized yield
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+      
+      {/* Tabs Content */}
+      <Tabs defaultValue="overview" onValueChange={handleTabChange} className="w-full">
+        <TabsList className="bg-white/5 mb-6">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="documents">Documents</TabsTrigger>
+          <TabsTrigger value="market-making">Market Making</TabsTrigger>
+          <TabsTrigger value="audits">Audits & Security</TabsTrigger>
+        </TabsList>
+        
+        {/* Overview Tab */}
+        <TabsContent value="overview" className="space-y-6">
+          <Card className="bg-gradient-card border-white/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Info className="w-5 h-5 text-kamui-teal" />
+                Asset Details
+              </CardTitle>
+              <CardDescription>Comprehensive information about this RWA launch pool</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="glass-card p-6">
+                <h3 className="text-xl font-medium mb-4">Description</h3>
+                <p className="text-white/80 mb-6">{launchPool.detailedDescription}</p>
                 
-                <div className="glass-card p-4 border border-white/10 rounded-lg">
-                  <h4 className="text-sm text-white/60 mb-1">Target APY</h4>
-                  <p className="text-xl font-medium text-white flex items-center">
-                    <Percent className="w-4 h-4 text-kamui-accent mr-1" />
-                    {poolData.targetApy}%
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-6">
-              <div className="glass-card p-4 border border-white/10 rounded-lg">
-                <h4 className="text-md font-medium text-white mb-3">Pool Details</h4>
-                
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <p className="text-white/60 text-sm">Participants</p>
-                    <p className="text-white font-medium flex items-center">
-                      <Users className="w-4 h-4 text-kamui-purple mr-1" />
-                      {poolData.participantsCount}
+                    <h4 className="text-md font-medium mb-3 text-kamui-accent">General Information</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Asset Type:</span>
+                        <span className="text-white font-medium flex items-center">
+                          {getAssetIcon(launchPool.assetType)}
+                          <span className="ml-1 capitalize">{launchPool.assetType.replace('-', ' ')}</span>
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Issuer:</span>
+                        <span className="text-white font-medium">{launchPool.assetIssuer}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Launch Date:</span>
+                        <span className="text-white font-medium">{launchPool.startDate}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Maturity Date:</span>
+                        <span className="text-white font-medium">{launchPool.maturityDate}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Duration:</span>
+                        <span className="text-white font-medium">{launchPool.duration}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-md font-medium mb-3 text-kamui-accent">Risk & Performance</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Risk Score:</span>
+                        <span className="text-white font-medium">{launchPool.riskScore}/5</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Target APY:</span>
+                        <span className="text-white font-medium">{launchPool.targetApy}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Liquidity:</span>
+                        <span className="text-white font-medium">{launchPool.liquidity}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Min Investment:</span>
+                        <span className="text-white font-medium">{launchPool.minInvestment}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Total Value:</span>
+                        <span className="text-white font-medium">{launchPool.totalValue}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="glass-card p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-kamui-accent/20 to-kamui-teal/20 flex items-center justify-center">
+                    <Brain className="h-5 w-5 text-kamui-accent" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-medium">AI-Driven Liquidity Provisioning</h3>
+                    <p className="text-white/60">Master AI manages market-making for this RWA</p>
+                  </div>
+                </div>
+                
+                <p className="text-white/80 mb-4">
+                  This launch pool utilizes Kamui's three-tier AI hierarchy to ensure optimal liquidity provisioning
+                  and efficient price discovery. The Master AI coordinates with specialized Intelligence Agents to
+                  continuously analyze market conditions and adjust market-making parameters in real-time.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div className="bg-white/5 p-4 rounded-xl">
+                    <Brain className="h-5 w-5 text-kamui-accent mb-2" />
+                    <h4 className="font-medium text-white mb-1">Master AI</h4>
+                    <p className="text-white/60 text-sm">
+                      Coordinates overall strategy and risk parameters
                     </p>
                   </div>
                   
-                  <div>
-                    <p className="text-white/60 text-sm">Duration</p>
-                    <p className="text-white font-medium flex items-center">
-                      <Calendar className="w-4 h-4 text-kamui-accent mr-1" />
-                      {poolData.duration}
+                  <div className="bg-white/5 p-4 rounded-xl">
+                    <LineChart className="h-5 w-5 text-kamui-teal mb-2" />
+                    <h4 className="font-medium text-white mb-1">Intelligence Agents</h4>
+                    <p className="text-white/60 text-sm">
+                      Specialized in RWA valuation and market analysis
                     </p>
                   </div>
                   
-                  <div>
-                    <p className="text-white/60 text-sm">Start Date</p>
-                    <p className="text-white font-medium">{poolData.startDate}</p>
-                  </div>
-                  
-                  <div>
-                    <p className="text-white/60 text-sm">End Date</p>
-                    <p className="text-white font-medium">{poolData.endDate}</p>
-                  </div>
-                  
-                  <div>
-                    <p className="text-white/60 text-sm">Risk Level</p>
-                    <p className="text-white font-medium">{poolData.riskLevel}</p>
-                  </div>
-                  
-                  <div>
-                    <p className="text-white/60 text-sm">Liquidity Lockup</p>
-                    <p className="text-white font-medium">{poolData.liquidityLockup}</p>
+                  <div className="bg-white/5 p-4 rounded-xl">
+                    <Clock className="h-5 w-5 text-kamui-purple mb-2" />
+                    <h4 className="font-medium text-white mb-1">24/7 Operations</h4>
+                    <p className="text-white/60 text-sm">
+                      Continuous monitoring and optimization
+                    </p>
                   </div>
                 </div>
-              </div>
-              
-              <div>
-                <h4 className="text-md font-medium text-white mb-3 flex items-center">
-                  <FileText className="w-4 h-4 mr-2 text-kamui-accent" />
-                  Asset Documentation
-                </h4>
                 
-                <div className="space-y-2">
-                  {poolData.documents.map((doc, index) => (
-                    <div 
-                      key={index} 
-                      className="glass-card p-3 border border-white/10 rounded-lg flex items-center justify-between cursor-pointer hover-scale"
-                      onClick={() => {
-                        toast({
-                          title: "Document Access",
-                          description: `Opening ${doc.name} for viewing`,
-                        });
-                      }}
-                    >
-                      <span className="text-white flex items-center">
-                        <FileText className="w-4 h-4 text-kamui-teal mr-2" />
-                        {doc.name}
-                      </span>
-                      <ChevronRight className="w-4 h-4 text-white/60" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div>
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="tokenization">
-                <AccordionTrigger>
-                  <span className="flex items-center">
-                    <Layers className="w-4 h-4 mr-2 text-kamui-accent" />
-                    Tokenization Process
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="glass-card p-4 border border-white/10 rounded-lg">
-                    <p className="text-white/80 mb-4">
-                      This asset has been tokenized through our secure blockchain infrastructure, 
-                      creating a digital representation that enables fractionalized ownership 
-                      and provides liquidity for this real-world asset.
-                    </p>
-                    
-                    <div className="flex flex-col sm:flex-row justify-between gap-4">
-                      <div>
-                        <p className="text-white/60 text-sm">Tokenization Status</p>
-                        <p className="text-white font-medium">{poolData.tokenizationStatus}</p>
-                      </div>
-                      
-                      <div>
-                        <p className="text-white/60 text-sm">Blockchain</p>
-                        <p className="text-white font-medium">Ethereum (ERC-20)</p>
-                      </div>
-                      
-                      <div>
-                        <p className="text-white/60 text-sm">Token Symbol</p>
-                        <p className="text-white font-medium">RWA-{poolData.id}</p>
-                      </div>
-                      
-                      <div>
-                        <p className="text-white/60 text-sm">Total Supply</p>
-                        <p className="text-white font-medium">1,000,000</p>
-                      </div>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              
-              <AccordionItem value="faq">
-                <AccordionTrigger>
-                  <span className="flex items-center">
-                    <HelpCircle className="w-4 h-4 mr-2 text-kamui-teal" />
-                    Frequently Asked Questions
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-4">
-                    <div>
-                      <h5 className="text-white font-medium mb-1">How does investing in a launch pool work?</h5>
-                      <p className="text-white/70 text-sm">
-                        Investors can contribute funds during the active period. Once the pool closes, 
-                        the aggregated funds are used to acquire and tokenize the real-world asset. 
-                        Investors receive tokens proportional to their investment.
-                      </p>
-                    </div>
-                    
-                    <div>
-                      <h5 className="text-white font-medium mb-1">What returns can I expect?</h5>
-                      <p className="text-white/70 text-sm">
-                        The target APY provides an estimate of expected returns, but actual returns 
-                        may vary based on market conditions and asset performance.
-                      </p>
-                    </div>
-                    
-                    <div>
-                      <h5 className="text-white font-medium mb-1">When can I withdraw my investment?</h5>
-                      <p className="text-white/70 text-sm">
-                        Each pool has a liquidity lockup period after which tokens can be sold on 
-                        the secondary market or redeemed through our liquidity providers.
-                      </p>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-          
-          <Dialog>
-            <DialogTrigger asChild>
-              <div className="flex justify-center">
                 <Button 
                   variant="outline" 
-                  className="glass-button text-kamui-accent hover-scale"
+                  className="glass-button text-kamui-accent hover-scale group"
+                  onClick={() => {
+                    toast({
+                      title: "AI Strategy Details",
+                      description: "Loading comprehensive AI market-making strategy details",
+                    });
+                  }}
                 >
-                  <Info className="w-4 h-4 mr-2" />
-                  Additional Information
+                  <span>View AI Strategy Details</span>
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
-            </DialogTrigger>
-            <DialogContent className="bg-gradient-to-br from-kamui-dark to-black/95 border border-white/10 text-white">
-              <DialogHeader>
-                <DialogTitle>{poolData.name} - Additional Information</DialogTitle>
-                <DialogDescription>
-                  Full details about this asset and launch pool
-                </DialogDescription>
-              </DialogHeader>
-              
-              <div className="space-y-4">
-                <p className="text-white/80">
-                  This launch pool represents an opportunity to participate in ownership of {poolData.description.toLowerCase()}. 
-                  The asset has undergone thorough due diligence and valuation by our expert team.
-                </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Documents Tab */}
+        <TabsContent value="documents" className="space-y-6">
+          <Card className="bg-gradient-card border-white/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <File className="w-5 h-5 text-kamui-teal" />
+                Legal & Financial Documents
+              </CardTitle>
+              <CardDescription>All documentation related to this launch pool</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="glass-card p-6 space-y-4">
+                <h3 className="text-xl font-medium mb-2">Available Documents</h3>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="glass-card p-4 border border-white/10 rounded-lg">
-                    <h5 className="text-white/80 font-medium mb-2">Legal Structure</h5>
-                    <p className="text-white/70 text-sm">
-                      The asset is held by a regulated trust structure that ensures legal 
-                      compliance and investor protection.
-                    </p>
+                {launchPool.documents?.map((doc, index) => (
+                  <div key={index} className="glass-card p-4 hover-scale cursor-pointer" onClick={() => {
+                    toast({
+                      title: `Downloading ${doc.name}`,
+                      description: `File size: ${doc.size}`,
+                    });
+                  }}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                          <File className="h-5 w-5 text-kamui-teal" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white">{doc.name}</h4>
+                          <p className="text-white/60 text-sm">{doc.type} · {doc.size}</p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="icon" className="rounded-full">
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
-                  
-                  <div className="glass-card p-4 border border-white/10 rounded-lg">
-                    <h5 className="text-white/80 font-medium mb-2">Valuation Methodology</h5>
-                    <p className="text-white/70 text-sm">
-                      Asset valuation was performed using standard industry practices and verified 
-                      by independent third-party auditors.
-                    </p>
+                ))}
+                
+                <Button 
+                  variant="outline" 
+                  className="glass-button text-kamui-accent hover-scale group w-full mt-4"
+                  onClick={() => {
+                    toast({
+                      title: "Download All Documents",
+                      description: "Preparing all documents for download",
+                    });
+                  }}
+                >
+                  <span>Download All Documents</span>
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Market Making Tab */}
+        <TabsContent value="market-making" className="space-y-6">
+          <Card className="bg-gradient-card border-white/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <LineChart className="w-5 h-5 text-kamui-teal" />
+                Market Making Parameters
+              </CardTitle>
+              <CardDescription>AI-controlled liquidity settings for this asset</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="glass-card p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-kamui-accent/20 to-kamui-teal/20 flex items-center justify-center">
+                    <Brain className="h-5 w-5 text-kamui-accent" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-medium">AI Market-Making Strategy</h3>
+                    <p className="text-white/60">Current parameters set by Master AI</p>
                   </div>
                 </div>
                 
-                <p className="text-white/60 text-sm">
-                  For detailed investment terms and conditions, please review the full documentation 
-                  package available in the Asset Documentation section.
-                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div className="glass-card p-4">
+                    <h4 className="text-md font-medium mb-3 text-kamui-accent">Liquidity Parameters</h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Target Spread:</span>
+                        <span className="text-white font-medium">{launchPool.marketMakingParams?.targetSpread}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Liquidity Depth:</span>
+                        <span className="text-white font-medium">{launchPool.marketMakingParams?.liquidityDepth}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Rebalancing Frequency:</span>
+                        <span className="text-white font-medium">{launchPool.marketMakingParams?.rebalancingFrequency}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Market Hours:</span>
+                        <span className="text-white font-medium">{launchPool.marketMakingParams?.marketHours}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="glass-card p-4">
+                    <h4 className="text-md font-medium mb-3 text-kamui-accent">AI Optimization</h4>
+                    <p className="text-white/80 text-sm mb-3">
+                      The AI continuously analyzes market conditions to optimize these parameters.
+                      Recent data shows optimal performance with the current settings.
+                    </p>
+                    
+                    <div className="flex items-center justify-between bg-white/5 p-3 rounded-lg">
+                      <span className="text-white/80">AI Confidence Score:</span>
+                      <div className="flex items-center">
+                        <div className="w-full bg-white/10 h-2 rounded-full mr-2 w-24">
+                          <div className="bg-kamui-accent h-2 rounded-full w-[92%]"></div>
+                        </div>
+                        <span className="text-kamui-accent font-medium">92%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-white/5 p-4 rounded-xl mb-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Info className="h-4 w-4 text-kamui-teal" />
+                    <h4 className="font-medium text-white">Market-Making Insights</h4>
+                  </div>
+                  <p className="text-white/80 text-sm">
+                    The Master AI has determined that this RWA asset requires specialized market-making
+                    parameters due to its unique liquidity profile and market characteristics. 
+                    Intelligence Agents monitor market conditions 24/7 and recommend parameter
+                    adjustments to the Master AI when necessary.
+                  </p>
+                </div>
+                
+                <Button 
+                  variant="outline" 
+                  className="glass-button text-kamui-accent hover-scale group"
+                  onClick={() => {
+                    toast({
+                      title: "Market Activity Dashboard",
+                      description: "Loading real-time market activity metrics",
+                    });
+                  }}
+                >
+                  <span>View Market Activity</span>
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
               </div>
-            </DialogContent>
-          </Dialog>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Audits Tab */}
+        <TabsContent value="audits" className="space-y-6">
+          <Card className="bg-gradient-card border-white/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-kamui-teal" />
+                Security & Compliance
+              </CardTitle>
+              <CardDescription>Audits and verification details for this launch pool</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="glass-card p-6 space-y-6">
+                <div>
+                  <h3 className="text-xl font-medium mb-4">Audit Reports</h3>
+                  
+                  <div className="space-y-4">
+                    {launchPool.audits?.map((audit, index) => (
+                      <div key={index} className="glass-card p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                              <ClipboardCheck className="h-5 w-5 text-green-400" />
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-white">{audit.name}</h4>
+                              <div className="flex items-center">
+                                <Badge className="bg-green-500/20 text-green-400 rounded mr-2">
+                                  {audit.status}
+                                </Badge>
+                                <p className="text-white/60 text-sm">{audit.date}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="icon" className="rounded-full" onClick={() => {
+                            toast({
+                              title: `Downloading ${audit.name} Report`,
+                              description: `Audit conducted on ${audit.date}`,
+                            });
+                          }}>
+                            <ArrowRight className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-medium mb-4">Compliance Framework</h3>
+                  
+                  <div className="bg-white/5 p-4 rounded-xl mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Shield className="h-4 w-4 text-kamui-purple" />
+                      <h4 className="font-medium text-white">Regulatory Compliance</h4>
+                    </div>
+                    <p className="text-white/80 text-sm">
+                      This launch pool complies with all relevant regulations for tokenized real-world assets.
+                      Kamui ensures ongoing compliance through regular reviews and updates to the regulatory framework.
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="glass-card p-3">
+                      <h5 className="text-sm font-medium text-kamui-accent mb-1">KYC/AML</h5>
+                      <p className="text-white/60 text-xs">Full compliance with global standards</p>
+                    </div>
+                    <div className="glass-card p-3">
+                      <h5 className="text-sm font-medium text-kamui-accent mb-1">Smart Contract</h5>
+                      <p className="text-white/60 text-xs">Security audit by leading firms</p>
+                    </div>
+                    <div className="glass-card p-3">
+                      <h5 className="text-sm font-medium text-kamui-accent mb-1">Legal Structure</h5>
+                      <p className="text-white/60 text-xs">Reviewed by specialized legal counsel</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
 
-export default LaunchPoolDetailView;
+export default LaunchPoolDetails;
