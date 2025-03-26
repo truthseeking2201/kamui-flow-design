@@ -1,8 +1,6 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
-import { Wallet, Brain, Info, LogOut, Layers, LineChart, Users, AlertCircle, Database, Settings } from 'lucide-react';
-import Building from '../components/Building';
+import { Wallet, Brain, Info, LogOut, Layers, LineChart, Users, AlertCircle, Database, Settings, Building } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Portfolio from '../components/dashboard/Portfolio';
@@ -363,16 +361,14 @@ const Dashboard: React.FC = () => {
                             <p className="text-white/70 text-sm mb-3">
                               Institutions submit comprehensive details about the real-world asset for tokenization and market-making
                             </p>
-                            <Button 
-                              variant="outline" 
-                              className="glass-button text-kamui-accent"
-                              onClick={() => toast({
-                                title: "Asset Proposal Form",
-                                description: "Opening comprehensive asset submission form",
-                              })}
-                            >
-                              Submit Asset Proposal
-                            </Button>
+                            <Link to="/asset-onboarding">
+                              <Button 
+                                variant="outline" 
+                                className="glass-button text-kamui-accent"
+                              >
+                                Submit Asset Proposal
+                              </Button>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -449,15 +445,13 @@ const Dashboard: React.FC = () => {
                   </div>
                   
                   <div className="flex justify-end">
-                    <Button 
-                      className="bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale"
-                      onClick={() => toast({
-                        title: "Asset Onboarding",
-                        description: "Starting guided asset submission process",
-                      })}
-                    >
-                      Start Asset Onboarding
-                    </Button>
+                    <Link to="/asset-onboarding">
+                      <Button 
+                        className="bg-gradient-to-r from-kamui-accent to-kamui-teal text-kamui-dark hover-scale"
+                      >
+                        Start Asset Onboarding
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
@@ -471,7 +465,6 @@ const Dashboard: React.FC = () => {
 
 export default Dashboard;
 
-// We need a Plus icon that wasn't imported above
 function Plus(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
