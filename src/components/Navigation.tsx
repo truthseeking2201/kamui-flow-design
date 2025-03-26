@@ -45,6 +45,9 @@ const Navigation: React.FC = () => {
           <Link to="/#vaults" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
             Vaults
           </Link>
+          <Link to="/flows" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
+            Flows
+          </Link>
           <Link to="/dashboard" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
             Dashboard
           </Link>
@@ -103,6 +106,13 @@ const Navigation: React.FC = () => {
             onClick={() => setIsMenuOpen(false)}
           >
             Vaults
+          </Link>
+          <Link
+            to="/flows"
+            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Flows
           </Link>
           <Link
             to="/dashboard"
