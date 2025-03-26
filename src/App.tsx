@@ -12,6 +12,8 @@ import IntelligenceAgents from "./pages/IntelligenceAgents";
 import AgentDetails from "./pages/AgentDetails";
 import Flows from "./pages/Flows";
 import AssetOnboarding from "./pages/AssetOnboarding";
+import LaunchPools from "./pages/LaunchPools";
+import LaunchPoolDetails from "./pages/LaunchPoolDetails";
 import NotFound from "./pages/NotFound";
 
 // Create a new QueryClient instance
@@ -33,6 +35,8 @@ const App: React.FC = () => {
               <Route path="/agent/:id" element={<AgentDetails />} />
               <Route path="/flows" element={<Flows />} />
               <Route path="/asset-onboarding" element={<AssetOnboarding />} />
+              <Route path="/launch-pools" element={<LaunchPools />} />
+              <Route path="/launch-pool/:id" element={<LaunchPoolDetails />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

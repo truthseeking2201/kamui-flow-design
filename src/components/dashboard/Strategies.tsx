@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Brain, ChevronRight, Plus, Zap, Building, Landmark, DollarSign } from 'lucide-react';
+import { Brain, ChevronRight, Plus, Zap, Building, Landmark, DollarSign, LayersIcon } from 'lucide-react';
 import { useRWAAssets } from '@/hooks/useRWAAssets';
 import { useToast } from '@/hooks/use-toast';
 
@@ -76,13 +76,6 @@ const Strategies: React.FC = () => {
     });
   };
 
-  const handleViewAllStrategies = () => {
-    toast({
-      title: "Strategies",
-      description: "Loading comprehensive strategy management dashboard",
-    });
-  };
-
   return (
     <Card className="bg-gradient-card border-white/5">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -90,14 +83,25 @@ const Strategies: React.FC = () => {
           <CardTitle>AI Market-Making Strategies</CardTitle>
           <CardDescription>AI-powered RWA liquidity strategies</CardDescription>
         </div>
-        <Button 
-          variant="outline" 
-          className="glass-button text-kamui-accent hover-scale"
-          onClick={handleNewStrategy}
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          New Strategy
-        </Button>
+        <div className="flex gap-2">
+          <Link to="/launch-pools">
+            <Button 
+              variant="outline" 
+              className="glass-button text-kamui-teal hover-scale flex"
+            >
+              <LayersIcon className="mr-2 h-4 w-4" />
+              Launch Pools
+            </Button>
+          </Link>
+          <Button 
+            variant="outline" 
+            className="glass-button text-kamui-accent hover-scale"
+            onClick={handleNewStrategy}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            New Strategy
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap gap-2 mb-4">
@@ -161,14 +165,31 @@ const Strategies: React.FC = () => {
           ))}
         </div>
         
-        <Button 
-          variant="outline" 
-          className="w-full mt-4 glass-button text-kamui-accent hover-scale group"
-          onClick={handleViewAllStrategies}
-        >
-          <span>View All Strategies</span>
-          <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-        </Button>
+        <div className="flex gap-2 mt-4">
+          <Button 
+            variant="outline" 
+            className="w-full glass-button text-kamui-accent hover-scale group"
+            onClick={() => {
+              toast({
+                title: "Strategies",
+                description: "Loading comprehensive strategy management dashboard",
+              });
+            }}
+          >
+            <span>View All Strategies</span>
+            <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          </Button>
+          
+          <Link to="/asset-onboarding" className="w-full">
+            <Button 
+              variant="outline" 
+              className="w-full glass-button text-kamui-purple hover-scale group"
+            >
+              <span>Submit New Asset</span>
+              <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );
