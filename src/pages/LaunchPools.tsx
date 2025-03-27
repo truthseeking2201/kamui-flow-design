@@ -1,18 +1,36 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import LaunchPoolList from '../components/launchpool/LaunchPoolList';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Building, Landmark, LayersIcon, TicketPercent, TrendingUp } from 'lucide-react';
+import { Building, ChevronLeft, Landmark, LayersIcon, TicketPercent, TrendingUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const LaunchPools: React.FC = () => {
+  const navigate = useNavigate();
+  
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+  
   return (
     <Layout>
       <div className="pt-24">
         <div className="container mx-auto px-6 my-12">
-          <h1 className="font-display font-bold text-3xl mb-8">
-            RWA <span className="text-gradient">Launch Pools</span>
-          </h1>
+          <div className="flex items-center gap-4 mb-8">
+            <Button 
+              variant="ghost" 
+              className="text-white/70 hover:text-white flex items-center group p-0"
+              onClick={handleGoBack}
+            >
+              <ChevronLeft className="h-4 w-4 mr-1 group-hover:-translate-x-1 transition-transform" />
+              <span>Back</span>
+            </Button>
+            <h1 className="font-display font-bold text-3xl">
+              RWA <span className="text-gradient">Launch Pools</span>
+            </h1>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <Card className="bg-gradient-card border-white/5">
