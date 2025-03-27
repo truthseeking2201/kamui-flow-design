@@ -1,11 +1,21 @@
 
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +25,13 @@ const Navigation: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <header 
@@ -33,26 +50,23 @@ const Navigation: React.FC = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
+          <Link to="/" className={`transition-colors duration-200 font-medium ${isActive('/') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
             Home
           </Link>
-          <Link to="/#features" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
-            Features
+          <Link to="/dashboard" className={`transition-colors duration-200 font-medium ${isActive('/dashboard') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
+            Dashboard
           </Link>
-          <Link to="/#strategy" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
-            Strategy
-          </Link>
-          <Link to="/#vaults" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
-            Vaults
-          </Link>
-          <Link to="/flows" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
+          <Link to="/flows" className={`transition-colors duration-200 font-medium ${isActive('/flows') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
             Flows
           </Link>
-          <Link to="/asset-onboarding" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
+          <Link to="/asset-onboarding" className={`transition-colors duration-200 font-medium ${isActive('/asset-onboarding') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
             Asset Onboarding
           </Link>
-          <Link to="/dashboard" className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link">
-            Dashboard
+          <Link to="/launch-pools" className={`transition-colors duration-200 font-medium ${isActive('/launch-pool') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
+            Launch Pools
+          </Link>
+          <Link to="/intelligence-agents" className={`transition-colors duration-200 font-medium ${isActive('/intelligence-agents') || isActive('/agent/') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
+            Intelligence Agents
           </Link>
         </nav>
 
@@ -84,52 +98,45 @@ const Navigation: React.FC = () => {
         <nav className="flex flex-col items-center gap-8 text-xl">
           <Link
             to="/"
-            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
+            className={`transition-colors duration-200 font-medium ${isActive('/') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}
             onClick={() => setIsMenuOpen(false)}
           >
             Home
           </Link>
           <Link
-            to="/#features"
-            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
+            to="/dashboard"
+            className={`transition-colors duration-200 font-medium ${isActive('/dashboard') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}
             onClick={() => setIsMenuOpen(false)}
           >
-            Features
-          </Link>
-          <Link
-            to="/#strategy"
-            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Strategy
-          </Link>
-          <Link
-            to="/#vaults"
-            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Vaults
+            Dashboard
           </Link>
           <Link
             to="/flows"
-            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
+            className={`transition-colors duration-200 font-medium ${isActive('/flows') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}
             onClick={() => setIsMenuOpen(false)}
           >
             Flows
           </Link>
           <Link
             to="/asset-onboarding"
-            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
+            className={`transition-colors duration-200 font-medium ${isActive('/asset-onboarding') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}
             onClick={() => setIsMenuOpen(false)}
           >
             Asset Onboarding
           </Link>
           <Link
-            to="/dashboard"
-            className="text-white/80 hover:text-kamui-accent transition-colors duration-200 font-medium story-link"
+            to="/launch-pools"
+            className={`transition-colors duration-200 font-medium ${isActive('/launch-pool') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}
             onClick={() => setIsMenuOpen(false)}
           >
-            Dashboard
+            Launch Pools
+          </Link>
+          <Link
+            to="/intelligence-agents"
+            className={`transition-colors duration-200 font-medium ${isActive('/intelligence-agents') || isActive('/agent/') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Intelligence Agents
           </Link>
           <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
             <button className="glass-button px-6 py-3 mt-4 text-kamui-accent font-medium flex items-center gap-2 hover-scale">
