@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
-import { Wallet, Brain, Info, LogOut, Layers, LineChart, Users, AlertCircle, Database, Settings, Building } from 'lucide-react';
+import { Wallet, Brain, Info, LogOut, Layers, LineChart, Users, AlertCircle, Database, Settings, Building, Clock, CheckCircle, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Portfolio from '../components/dashboard/Portfolio';
@@ -30,6 +30,37 @@ const Dashboard: React.FC = () => {
       title: `${value.charAt(0).toUpperCase() + value.slice(1)} View`,
       description: `Switched to ${value} dashboard view`,
     });
+  };
+
+  // Mock data for submitted assets (in a real app, this would come from backend)
+  const submittedAssets = [
+    {
+      id: '1',
+      name: 'Residential Complex A',
+      type: 'real-estate',
+      submissionDate: new Date('2024-03-15'),
+      status: 'under-review',
+    },
+    {
+      id: '2',
+      name: 'Gold Investment Fund',
+      type: 'precious-metals',
+      submissionDate: new Date('2024-03-10'),
+      status: 'initial-screening',
+    }
+  ];
+
+  const getStatusIcon = (status: string) => {
+    switch(status) {
+      case 'under-review':
+        return <Clock className="w-4 h-4 text-kamui-teal" />;
+      case 'initial-screening':
+        return <AlertTriangle className="w-4 h-4 text-amber-400" />;
+      case 'approved':
+        return <CheckCircle className="w-4 h-4 text-green-500" />;
+      default:
+        return <AlertTriangle className="w-4 h-4 text-red-500" />;
+    }
   };
 
   return (
@@ -453,6 +484,56 @@ const Dashboard: React.FC = () => {
                       </Button>
                     </Link>
                   </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-gradient-card border-white/5 mt-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Building className="w-5 h-5 text-kamui-accent" />
+                    My Submitted Assets
+                  </CardTitle>
+                  <CardDescription>Track the status of your submitted real-world assets</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {submittedAssets.length === 0 ? (
+                    <div className="text-center text-white/60 py-6">
+                      No assets submitted yet. Start by clicking "Start Asset Onboarding".
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {submittedAssets.map(asset => (
+                        <div 
+                          key={asset.id} 
+                          className="glass-card p-4 flex items-center justify-between hover-scale cursor-pointer"
+                          onClick={() => {
+                            toast({
+                              title: `Asset Details: ${asset.name}`,
+                              description: "Opening detailed view of submitted asset",
+                            });
+                          }}
+                        >
+                          <div className="flex items-center gap-3">
+                            {getStatusIcon(asset.status)}
+                            <div>
+                              <h4 className="font-medium text-white">{asset.name}</h4>
+                              <p className="text-white/60 text-xs">{asset.type} | Submitted {asset.submissionDate.toLocaleDateString()}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <span className={`px-2 py-1 rounded text-xs font-medium ${
+                              asset.status === 'under-review' ? 'bg-kamui-teal/20 text-kamui-teal' :
+                              asset.status === 'initial-screening' ? 'bg-amber-400/20 text-amber-400' :
+                              asset.status === 'approved' ? 'bg-green-500/20 text-green-500' :
+                              'bg-red-500/20 text-red-500'
+                            }`}>
+                              {asset.status.replace('-', ' ')}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
