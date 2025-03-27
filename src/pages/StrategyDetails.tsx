@@ -1,10 +1,8 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { ArrowLeft, Activity, Brain, BarChart3, Settings } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PerformanceChart from '../components/PerformanceChart';
 
 const StrategyDetails: React.FC = () => {
@@ -89,33 +87,7 @@ const StrategyDetails: React.FC = () => {
 
         {/* Strategy Performance */}
         <div className="mb-8">
-          <Card className="bg-gradient-card border-white/5">
-            <CardHeader>
-              <CardTitle className="flex items-center text-xl">
-                <Activity className="w-5 h-5 mr-2 text-kamui-accent" />
-                Performance History
-              </CardTitle>
-              <CardDescription>Historical performance and projected returns</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Tabs defaultValue="month" className="w-full">
-                <TabsList className="grid w-full max-w-md grid-cols-3 mb-6">
-                  <TabsTrigger value="week">Week</TabsTrigger>
-                  <TabsTrigger value="month">Month</TabsTrigger>
-                  <TabsTrigger value="year">Year</TabsTrigger>
-                </TabsList>
-                <TabsContent value="week" className="h-[300px]">
-                  <PerformanceChart period="week" />
-                </TabsContent>
-                <TabsContent value="month" className="h-[300px]">
-                  <PerformanceChart period="month" />
-                </TabsContent>
-                <TabsContent value="year" className="h-[300px]">
-                  <PerformanceChart period="year" />
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
+          <PerformanceChart period="year" />
         </div>
 
         {/* Strategy Details */}
