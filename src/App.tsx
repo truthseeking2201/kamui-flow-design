@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -7,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import AIStrategies from "./pages/AIStrategies";
 import StrategyDetails from "./pages/StrategyDetails";
 import IntelligenceAgents from "./pages/IntelligenceAgents";
 import AgentDetails from "./pages/AgentDetails";
@@ -39,7 +41,7 @@ const App: React.FC = () => {
                 <Route path="dashboard" element={<Dashboard />} />
                 
                 {/* Strategy-related routes */}
-                <Route path="strategies" element={<Navigate to="/dashboard" />} />
+                <Route path="strategies" element={<AIStrategies />} />
                 <Route path="strategy/:id" element={<StrategyDetails />} />
                 <Route path="create-strategy" element={<CreateStrategy />} />
                 <Route path="deploy-strategy/:id" element={<DeployStrategy />} />
