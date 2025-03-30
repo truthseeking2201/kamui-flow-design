@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { 
   LineChart, ChevronRight, Plus, Zap, Star, Users, 
   Download, Share2, FileCode, Filter, Search, Building, 
-  Landmark, DollarSign, TrendingUp, Shield 
+  Landmark, DollarSign, TrendingUp, Shield, Layers 
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
@@ -113,7 +114,7 @@ const MarketplaceStrategies: React.FC = () => {
       color: "from-purple-500 to-pink-500",
       borderColor: "border-purple-500/30",
       iconBg: "bg-[#8b5cf6]/20",
-      icon: <LayersIcon className="h-6 w-6 text-[#8b5cf6]" />,
+      icon: <Layers className="h-6 w-6 text-[#8b5cf6]" />,
     },
   ];
 
