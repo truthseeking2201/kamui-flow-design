@@ -32,6 +32,8 @@ const MarketplaceStrategies: React.FC = () => {
       users: 842,
       color: "from-kamui-accent to-kamui-teal",
       borderColor: "border-kamui-accent/30",
+      iconBg: "bg-[#00efff]/20",
+      icon: <LineChart className="h-6 w-6 text-[#00efff]" />,
     },
     {
       id: "2",
@@ -46,6 +48,8 @@ const MarketplaceStrategies: React.FC = () => {
       users: 1253,
       color: "from-kamui-teal to-green-500",
       borderColor: "border-kamui-teal/30",
+      iconBg: "bg-[#10b981]/20",
+      icon: <DollarSign className="h-6 w-6 text-[#10b981]" />,
     },
     {
       id: "3",
@@ -60,6 +64,8 @@ const MarketplaceStrategies: React.FC = () => {
       users: 756,
       color: "from-amber-400 to-yellow-600",
       borderColor: "border-amber-400/30",
+      iconBg: "bg-amber-400/20",
+      icon: <Landmark className="h-6 w-6 text-amber-400" />,
     },
     {
       id: "4",
@@ -74,6 +80,8 @@ const MarketplaceStrategies: React.FC = () => {
       users: 328,
       color: "from-kamui-purple to-indigo-500",
       borderColor: "border-kamui-purple/30",
+      iconBg: "bg-[#9b87f5]/20",
+      icon: <TrendingUp className="h-6 w-6 text-[#9b87f5]" />,
     },
     {
       id: "5",
@@ -88,6 +96,8 @@ const MarketplaceStrategies: React.FC = () => {
       users: 415,
       color: "from-blue-500 to-blue-700",
       borderColor: "border-blue-500/30",
+      iconBg: "bg-blue-500/20",
+      icon: <Building className="h-6 w-6 text-blue-500" />,
     },
     {
       id: "6",
@@ -102,6 +112,8 @@ const MarketplaceStrategies: React.FC = () => {
       users: 927,
       color: "from-purple-500 to-pink-500",
       borderColor: "border-purple-500/30",
+      iconBg: "bg-[#8b5cf6]/20",
+      icon: <LayersIcon className="h-6 w-6 text-[#8b5cf6]" />,
     },
   ];
 
@@ -208,7 +220,7 @@ const MarketplaceStrategies: React.FC = () => {
             </div>
           </div>
           
-          <Tabs defaultValue="grid">
+          <Tabs defaultValue="list">
             <div className="flex justify-end mb-4">
               <TabsList className="bg-white/5">
                 <TabsTrigger value="grid">Grid</TabsTrigger>
@@ -223,8 +235,8 @@ const MarketplaceStrategies: React.FC = () => {
                     key={strategy.id} 
                     className={`glass-card neon-border ${strategy.borderColor} p-6 hover-scale`}
                   >
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${strategy.color} bg-opacity-20 flex items-center justify-center mb-4`}>
-                      {getCategoryIcon(strategy.category)}
+                    <div className={`w-12 h-12 rounded-xl ${strategy.iconBg} flex items-center justify-center mb-4`}>
+                      {strategy.icon}
                     </div>
                     
                     <div className="flex items-center justify-between mb-2">
@@ -291,8 +303,8 @@ const MarketplaceStrategies: React.FC = () => {
                 {filteredStrategies.map((strategy) => (
                   <div key={strategy.id} className="glass-card p-4 hover-scale">
                     <div className="flex flex-col md:flex-row gap-4">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${strategy.color} bg-opacity-20 flex items-center justify-center shrink-0`}>
-                        {getCategoryIcon(strategy.category)}
+                      <div className={`w-12 h-12 rounded-xl ${strategy.iconBg} flex items-center justify-center shrink-0`}>
+                        {strategy.icon}
                       </div>
                       
                       <div className="flex-1">

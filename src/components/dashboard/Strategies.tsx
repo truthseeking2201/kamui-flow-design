@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Brain, ChevronRight, Plus, Zap, Building, Landmark, DollarSign, LayersIcon } from 'lucide-react';
@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 const Strategies: React.FC = () => {
   const { assetType, setAssetType, assetTypes } = useRWAAssets();
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const strategies = [
     {
@@ -74,6 +75,11 @@ const Strategies: React.FC = () => {
       title: "Create Strategy",
       description: "Opening the AI strategy creation wizard",
     });
+    navigate('/create-strategy');
+  };
+  
+  const handleDeployStrategy = (id: string) => {
+    navigate(`/deploy-strategy/${id}`);
   };
 
   return (
@@ -120,18 +126,20 @@ const Strategies: React.FC = () => {
         
         <div className="space-y-3">
           {filteredStrategies.map((strategy) => (
-            <Link 
-              key={strategy.id} 
-              to={`/strategy/${strategy.id}`}
+            <div 
+              key={strategy.id}
               className="block"
-              onClick={() => {
-                toast({
-                  title: `Strategy Selected: ${strategy.name}`,
-                  description: `Loading detailed view of ${strategy.name} strategy`,
-                })
-              }}
             >
-              <div className="glass-card p-4 hover-scale group transition-all duration-200 cursor-pointer">
+              <div 
+                className="glass-card p-4 hover-scale group transition-all duration-200 cursor-pointer"
+                onClick={() => {
+                  toast({
+                    title: `Strategy Selected: ${strategy.name}`,
+                    description: `Loading detailed view of ${strategy.name} strategy`,
+                  });
+                  navigate(`/strategy/${strategy.id}`);
+                }}
+              >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-kamui-accent/20 to-kamui-purple/20 flex items-center justify-center">
@@ -157,11 +165,22 @@ const Strategies: React.FC = () => {
                       </div>
                       <p className="text-white/60 text-xs">{strategy.risk} Risk</p>
                     </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="bg-gradient-to-r from-kamui-accent/10 to-kamui-teal/10 border-white/10 text-kamui-accent hover:text-kamui-accent/80 hover:bg-white/5"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeployStrategy(strategy.id);
+                      }}
+                    >
+                      Deploy
+                    </Button>
                     <ChevronRight className="h-5 w-5 text-white/40 group-hover:text-white/80 group-hover:translate-x-1 transition-all" />
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
         

@@ -2,11 +2,16 @@
 import React from 'react';
 import { LineChart, ArrowRight, Star, Users, TrendingUp, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const MarketplacePreview: React.FC = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
   const strategies = [
     {
+      id: "1",
       name: "RWA Momentum Master",
       description: "AI-driven RWA market-making with momentum indicators",
       creator: "Kamui AI Team",
@@ -18,6 +23,7 @@ const MarketplacePreview: React.FC = () => {
       border: "border-kamui-accent/30",
     },
     {
+      id: "2",
       name: "Real Estate Arbitrage",
       description: "Capitalize on price differences in tokenized real estate markets",
       creator: "PropertyQuant",
@@ -29,6 +35,7 @@ const MarketplacePreview: React.FC = () => {
       border: "border-kamui-teal/30",
     },
     {
+      id: "3",
       name: "Fixed Income Guardian",
       description: "Conservative yield optimization for bond market-making",
       creator: "YieldBot",
@@ -40,6 +47,14 @@ const MarketplacePreview: React.FC = () => {
       border: "border-kamui-purple/30",
     }
   ];
+
+  const handleDeployStrategy = (id: string, name: string) => {
+    toast({
+      title: "Deploying Strategy",
+      description: `Setting up ${name} for your portfolio`,
+    });
+    navigate(`/deploy-strategy/${id}`);
+  };
 
   return (
     <section className="py-24 relative bg-gradient-to-b from-black/20 to-transparent" id="marketplace">
@@ -98,7 +113,11 @@ const MarketplacePreview: React.FC = () => {
                 </div>
               </div>
               
-              <Button variant="outline" className="w-full glass-button text-kamui-accent hover-scale group">
+              <Button 
+                variant="outline" 
+                className="w-full glass-button text-kamui-accent hover-scale group"
+                onClick={() => handleDeployStrategy(strategy.id, strategy.name)}
+              >
                 <span>Deploy Strategy</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
