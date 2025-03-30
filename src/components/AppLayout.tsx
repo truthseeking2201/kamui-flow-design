@@ -1,32 +1,31 @@
 
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import AnimatedBackground from './AnimatedBackground';
 import AppNavigation from './AppNavigation';
+import Breadcrumbs from './Breadcrumbs';
 
-interface LayoutProps {
-  children: React.ReactNode;
+interface AppLayoutProps {
   hideNav?: boolean;
 }
 
-// This component is mainly used for the landing page
-// For app pages, we use AppLayout with react-router's Outlet
-const Layout: React.FC<LayoutProps> = ({ children, hideNav = false }) => {
-  // Only hide navigation when explicitly requested
-  const shouldShowNav = !hideNav;
-
+const AppLayout: React.FC<AppLayoutProps> = ({ hideNav = false }) => {
   return (
     <div className="min-h-screen w-full bg-kamui-dark text-foreground overflow-hidden relative">
       <AnimatedBackground />
-      {shouldShowNav && (
+      {!hideNav && (
         <header className="fixed top-0 left-0 right-0 z-50 bg-[#0D1117]/80 backdrop-blur-md py-3 shadow-md">
           <AppNavigation />
         </header>
       )}
-      <main className="relative z-10">
-        {children}
+      <main className="relative z-10 pt-24">
+        <div className="container mx-auto px-6">
+          {!hideNav && <Breadcrumbs />}
+          <Outlet />
+        </div>
       </main>
     </div>
   );
 };
 
-export default Layout;
+export default AppLayout;

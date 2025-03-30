@@ -1,10 +1,10 @@
-
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import AppLayout from "./components/AppLayout";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import StrategyDetails from "./pages/StrategyDetails";
@@ -30,18 +30,34 @@ const App: React.FC = () => {
           <Sonner />
           <BrowserRouter>
             <Routes>
+              {/* Landing page - no navigation */}
               <Route path="/" element={<Index />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/strategy/:id" element={<StrategyDetails />} />
-              <Route path="/create-strategy" element={<CreateStrategy />} />
-              <Route path="/deploy-strategy/:id" element={<DeployStrategy />} />
-              <Route path="/intelligence-agents" element={<IntelligenceAgents />} />
-              <Route path="/agent/:id" element={<AgentDetails />} />
-              <Route path="/flows" element={<Flows />} />
-              <Route path="/asset-onboarding" element={<AssetOnboarding />} />
-              <Route path="/launch-pools" element={<LaunchPools />} />
-              <Route path="/launch-pool/:id" element={<LaunchPoolDetails />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              
+              {/* Main app with navigation */}
+              <Route path="/" element={<AppLayout />}>
+                {/* Dashboard and main sections */}
+                <Route path="dashboard" element={<Dashboard />} />
+                
+                {/* Strategy-related routes */}
+                <Route path="strategies" element={<Navigate to="/dashboard" />} />
+                <Route path="strategy/:id" element={<StrategyDetails />} />
+                <Route path="create-strategy" element={<CreateStrategy />} />
+                <Route path="deploy-strategy/:id" element={<DeployStrategy />} />
+                
+                {/* Agent-related routes */}
+                <Route path="intelligence-agents" element={<IntelligenceAgents />} />
+                <Route path="agent/:id" element={<AgentDetails />} />
+                
+                {/* Other main sections */}
+                <Route path="flows" element={<Flows />} />
+                <Route path="asset-onboarding" element={<AssetOnboarding />} />
+                
+                {/* Launch pool routes */}
+                <Route path="launch-pools" element={<LaunchPools />} />
+                <Route path="launch-pool/:id" element={<LaunchPoolDetails />} />
+              </Route>
+              
+              {/* Catch-all route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
