@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -12,7 +11,6 @@ import AIStrategies from "./pages/AIStrategies";
 import StrategyDetails from "./pages/StrategyDetails";
 import IntelligenceAgents from "./pages/IntelligenceAgents";
 import AgentDetails from "./pages/AgentDetails";
-import Flows from "./pages/Flows";
 import AssetOnboarding from "./pages/AssetOnboarding";
 import LaunchPools from "./pages/LaunchPools";
 import LaunchPoolDetails from "./pages/LaunchPoolDetails";
@@ -51,7 +49,6 @@ const App: React.FC = () => {
                 <Route path="agent/:id" element={<AgentDetails />} />
                 
                 {/* Other main sections */}
-                <Route path="flows" element={<Flows />} />
                 <Route path="asset-onboarding" element={<AssetOnboarding />} />
                 
                 {/* Launch pool routes */}

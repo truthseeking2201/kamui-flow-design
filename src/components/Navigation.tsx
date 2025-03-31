@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -55,9 +56,6 @@ const Navigation: React.FC = () => {
           <Link to="/dashboard" className={`transition-colors duration-200 font-medium ${isActive('/dashboard') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
             Dashboard
           </Link>
-          <Link to="/flows" className={`transition-colors duration-200 font-medium ${isActive('/flows') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
-            Flows
-          </Link>
           <Link to="/asset-onboarding" className={`transition-colors duration-200 font-medium ${isActive('/asset-onboarding') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}>
             Asset Onboarding
           </Link>
@@ -108,13 +106,6 @@ const Navigation: React.FC = () => {
             onClick={() => setIsMenuOpen(false)}
           >
             Dashboard
-          </Link>
-          <Link
-            to="/flows"
-            className={`transition-colors duration-200 font-medium ${isActive('/flows') ? 'text-kamui-accent' : 'text-white/80 hover:text-kamui-accent'}`}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Flows
           </Link>
           <Link
             to="/asset-onboarding"

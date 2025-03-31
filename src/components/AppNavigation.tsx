@@ -10,8 +10,7 @@ import {
   LayoutDashboard,
   Lightbulb,
   Network,
-  Plus,
-  Workflow
+  Plus
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -37,7 +36,6 @@ const AppNavigation: React.FC = () => {
   const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4 mr-2" /> },
     { path: '/strategies', label: 'AI Strategies', icon: <Lightbulb className="w-4 h-4 mr-2" /> },
-    { path: '/flows', label: 'Flows', icon: <Workflow className="w-4 h-4 mr-2" /> },
     { path: '/intelligence-agents', label: 'Intelligence Agents', icon: <Network className="w-4 h-4 mr-2" /> },
     { path: '/launch-pools', label: 'Launch Pools', icon: <Layers className="w-4 h-4 mr-2" /> },
     { path: '/asset-onboarding', label: 'Asset Onboarding', icon: <Building className="w-4 h-4 mr-2" /> },

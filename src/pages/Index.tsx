@@ -1,13 +1,12 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
 import StrategyVisualization from '../components/StrategyVisualization';
 import VaultCards from '../components/VaultCards';
-import UserFlow from '../components/UserFlow';
 import AIHierarchy from '../components/AIHierarchy';
 import MarketplacePreview from '../components/MarketplacePreview';
+import KamuiFlows from '../components/KamuiFlows';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Shield, LineChart, ArrowUpRight } from 'lucide-react';
 
@@ -23,8 +22,8 @@ const Index: React.FC = () => {
       <StrategyVisualization />
       <VaultCards />
       
-      {/* User Flow Section */}
-      <UserFlow />
+      {/* Kamui Flows Section - Replacing UserFlow */}
+      <KamuiFlows />
       
       {/* Strategy Marketplace Preview */}
       <MarketplacePreview />
