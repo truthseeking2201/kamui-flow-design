@@ -32,7 +32,6 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  // Mock data for submitted assets (in a real app, this would come from backend)
   const submittedAssets = [
     {
       id: '1',
@@ -66,15 +65,8 @@ const Dashboard: React.FC = () => {
   return (
     <Layout hideNav={true}>
       <div className="container mx-auto px-6 py-8">
-        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-r from-kamui-accent to-kamui-teal flex items-center justify-center">
-                <div className="w-2 h-2 bg-kamui-dark rounded-full"></div>
-              </div>
-              <Link to="/" className="font-display font-bold text-lg">Kamui <span className="text-gradient">AI</span></Link>
-            </div>
             <h1 className="font-display font-bold text-2xl md:text-3xl mb-2">RWA <span className="text-gradient">Market-Making</span> Dashboard</h1>
             <p className="text-white/70">Three-tier AI hierarchy for RWA liquidity and market-making</p>
           </div>
@@ -91,7 +83,6 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Dashboard Tabs */}
         <div className="mb-8">
           <Tabs defaultValue="overview" onValueChange={handleTabChange}>
             <TabsList className="bg-white/5 mb-6">
@@ -102,7 +93,6 @@ const Dashboard: React.FC = () => {
             </TabsList>
             
             <TabsContent value="overview">
-              {/* Overview Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <Card className="bg-gradient-card border-white/5 cursor-pointer hover-scale transition-all" onClick={() => handleCardClick("Portfolio")}>
                   <CardHeader className="pb-2">
@@ -167,9 +157,7 @@ const Dashboard: React.FC = () => {
                 </Card>
               </div>
 
-              {/* Main Content */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-                {/* Portfolio and Analytics */}
                 <div className="lg:col-span-2">
                   <div className="space-y-8">
                     <Analytics />
@@ -177,13 +165,11 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
 
-                {/* AI Recommendations */}
                 <div>
                   <AIRecommendations />
                 </div>
               </div>
               
-              {/* Strategies */}
               <div className="mb-8">
                 <Strategies />
               </div>
