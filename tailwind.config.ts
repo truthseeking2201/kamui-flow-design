@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -107,6 +106,13 @@ export default {
         "fade-in": "fade-in 0.5s ease-out forwards",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
       },
+      textColor: {
+        gradient: {
+          master: 'bg-gradient-to-br from-kamui-accent via-kamui-teal to-blue-400 bg-clip-text text-transparent',
+          intelligence: 'bg-gradient-to-br from-kamui-teal via-kamui-purple to-blue-500 bg-clip-text text-transparent',
+          user: 'bg-gradient-to-br from-kamui-purple via-kamui-pink to-kamui-accent bg-clip-text text-transparent'
+        }
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
