@@ -2,9 +2,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import AnimatedBackground from './AnimatedBackground';
+import AppNavigation from './AppNavigation';
 import Breadcrumbs from './Breadcrumbs';
-import AppSidebar from './AppSidebar';
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 
 interface AppLayoutProps {
   hideNav?: boolean;
@@ -12,25 +11,20 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ hideNav = false }) => {
   return (
-    <SidebarProvider>
-      <div className="min-h-screen w-full bg-kamui-dark text-foreground overflow-hidden relative">
-        <AnimatedBackground />
-        
-        {!hideNav && <AppSidebar />}
-        
-        <SidebarInset className="relative z-10">
-          <div className="container mx-auto px-6 py-8">
-            {!hideNav && (
-              <div className="flex items-center mb-4">
-                <SidebarTrigger className="mr-4" />
-                <Breadcrumbs />
-              </div>
-            )}
-            <Outlet />
-          </div>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+    <div className="min-h-screen w-full bg-kamui-dark text-foreground overflow-hidden relative">
+      <AnimatedBackground />
+      {!hideNav && (
+        <header className="fixed top-0 left-0 right-0 z-50 bg-[#0D1117]/80 backdrop-blur-md py-3 shadow-md">
+          <AppNavigation />
+        </header>
+      )}
+      <main className="relative z-10 pt-24">
+        <div className="container mx-auto px-6">
+          {!hideNav && <Breadcrumbs />}
+          <Outlet />
+        </div>
+      </main>
+    </div>
   );
 };
 
