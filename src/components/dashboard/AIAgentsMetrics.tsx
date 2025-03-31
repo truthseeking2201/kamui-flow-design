@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Brain, Zap, Shield, LineChart, Activity, Clock, Database, Lightbulb, User } from 'lucide-react';
+import { Brain, Zap, Shield, LineChart, Activity, Clock, Database } from 'lucide-react';
 import { ResponsiveContainer, LineChart as ReLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
@@ -94,7 +94,7 @@ const AIAgentsMetrics: React.FC = () => {
                       dataKey="master" 
                       name="master"
                       stroke="#7DF9FF" 
-                      strokeWidth={3}
+                      strokeWidth={2}
                       dot={{ r: 4, fill: '#0D1117', strokeWidth: 2 }}
                       activeDot={{ r: 6, fill: '#7DF9FF' }}
                     />
@@ -103,7 +103,7 @@ const AIAgentsMetrics: React.FC = () => {
                       dataKey="intelligence" 
                       name="intelligence"
                       stroke="#9b87f5" 
-                      strokeWidth={2.5}
+                      strokeWidth={2}
                       dot={{ r: 4, fill: '#0D1117', strokeWidth: 2 }}
                       activeDot={{ r: 6, fill: '#9b87f5' }}
                     />
@@ -120,25 +120,11 @@ const AIAgentsMetrics: React.FC = () => {
                 </ResponsiveContainer>
               </ChartContainer>
             </div>
-            <div className="flex justify-center gap-6 mt-4">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-kamui-accent rounded-full"></div>
-                <span className="text-sm text-white">Master AI</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-kamui-teal rounded-full"></div>
-                <span className="text-sm text-white">Intelligence AI</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-kamui-purple rounded-full"></div>
-                <span className="text-sm text-white">User AI</span>
-              </div>
-            </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="glass-card p-4 flex items-center gap-3 border-l-4 border-kamui-accent">
-              <div className="w-10 h-10 rounded-full bg-kamui-accent/20 flex items-center justify-center shadow-md shadow-kamui-accent/10">
+            <div className="glass-card p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-kamui-accent/20 flex items-center justify-center">
                 <Brain className="h-5 w-5 text-kamui-accent" />
               </div>
               <div>
@@ -150,28 +136,28 @@ const AIAgentsMetrics: React.FC = () => {
               </div>
             </div>
             
-            <div className="glass-card p-4 flex items-center gap-3 border-l-4 border-kamui-teal">
-              <div className="w-10 h-10 rounded-full bg-kamui-teal/20 flex items-center justify-center shadow-md shadow-kamui-teal/10">
-                <Lightbulb className="h-5 w-5 text-kamui-teal" />
+            <div className="glass-card p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-kamui-purple/20 flex items-center justify-center">
+                <Database className="h-5 w-5 text-kamui-purple" />
               </div>
               <div>
                 <p className="text-white/60 text-xs mb-1">Intelligence AI</p>
                 <div className="flex items-center">
-                  <p className="text-xl font-semibold text-kamui-teal">35% APY</p>
-                  <Shield className="h-4 w-4 text-kamui-teal ml-1" />
+                  <p className="text-xl font-semibold text-kamui-purple">35% APY</p>
+                  <Shield className="h-4 w-4 text-kamui-purple ml-1" />
                 </div>
               </div>
             </div>
             
-            <div className="glass-card p-4 flex items-center gap-3 border-l-4 border-kamui-purple">
-              <div className="w-10 h-10 rounded-full bg-kamui-purple/20 flex items-center justify-center shadow-md shadow-kamui-purple/10">
-                <User className="h-5 w-5 text-kamui-purple" />
+            <div className="glass-card p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-amber-400/20 flex items-center justify-center">
+                <Activity className="h-5 w-5 text-amber-400" />
               </div>
               <div>
                 <p className="text-white/60 text-xs mb-1">User AI</p>
                 <div className="flex items-center">
-                  <p className="text-xl font-semibold text-kamui-purple">30% APY</p>
-                  <LineChart className="h-4 w-4 text-kamui-purple ml-1" />
+                  <p className="text-xl font-semibold text-amber-400">30% APY</p>
+                  <LineChart className="h-4 w-4 text-amber-400 ml-1" />
                 </div>
               </div>
             </div>

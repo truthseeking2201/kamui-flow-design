@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { 
   ChartContainer, 
@@ -12,19 +12,9 @@ import { Button } from '@/components/ui/button';
 
 interface PerformanceChartProps {
   period?: 'week' | 'month' | 'year';
-  color?: 'accent' | 'purple' | 'teal';
-  title?: string;
-  subtitle?: string;
 }
 
-const PerformanceChart: React.FC<PerformanceChartProps> = ({ 
-  period = 'month', 
-  color = 'accent',
-  title = 'RWA Performance Analytics',
-  subtitle = 'All RWA Assets metrics and insights'
-}) => {
-  const [activeTab, setActiveTab] = useState('returns');
-  
+const PerformanceChart: React.FC<PerformanceChartProps> = ({ period = 'month' }) => {
   // Sample data based on period
   const generateData = () => {
     switch (period) {
@@ -59,41 +49,16 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({
   };
 
   const data = generateData();
-  
+
   // Chart configuration for shadcn/ui chart
   const chartConfig = {
     performance: {
       label: "Performance",
       theme: {
-        light: color === 'accent' ? "#7DF9FF" : color === 'purple' ? "#9b87f5" : "#00FFDD",
-        dark: color === 'accent' ? "#7DF9FF" : color === 'purple' ? "#9b87f5" : "#00FFDD"
+        light: "#7DF9FF",
+        dark: "#7DF9FF"
       }
     }
-  };
-  
-  // Activity data
-  const activityData = [
-    { date: 'Mon', trades: 12 },
-    { date: 'Tue', trades: 19 },
-    { date: 'Wed', trades: 15 },
-    { date: 'Thu', trades: 22 },
-    { date: 'Fri', trades: 28 },
-    { date: 'Sat', trades: 10 },
-    { date: 'Sun', trades: 8 },
-  ];
-
-  // RWA breakdown data
-  const rwaComparisonData = [
-    { name: 'Real Estate', value: 42 },
-    { name: 'Precious Metals', value: 18 },
-    { name: 'Fixed Income', value: 25 },
-    { name: 'Equities', value: 15 },
-  ];
-
-  const getAccentColor = () => {
-    return color === 'accent' ? 'text-kamui-accent' 
-         : color === 'purple' ? 'text-kamui-purple' 
-         : 'text-kamui-teal';
   };
 
   return (
@@ -101,35 +66,20 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({
       <div className="flex flex-col">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-bold text-white">{title}</h2>
-            <p className="text-white/70">{subtitle}</p>
+            <h2 className="text-2xl font-bold text-white">RWA Performance Analytics</h2>
+            <p className="text-white/70">All RWA Assets metrics and insights</p>
           </div>
           <Button variant="outline" size="icon" className="glass-button hover-scale">
-            <Download className={`h-4 w-4 ${getAccentColor()}`} />
+            <Download className="h-4 w-4 text-kamui-accent" />
           </Button>
         </div>
       
-        <div className={`chart-card ${color} neon-border ${color}`}>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full p-5">
-            <TabsList className="bg-black/20 backdrop-blur-sm mb-6 p-1 rounded-md border border-white/5">
-              <TabsTrigger 
-                value="returns" 
-                className={`${activeTab === 'returns' ? getAccentColor() : 'text-white/70'} data-[state=active]:bg-white/10 rounded-sm px-4`}
-              >
-                Returns
-              </TabsTrigger>
-              <TabsTrigger 
-                value="activity"
-                className={`${activeTab === 'activity' ? getAccentColor() : 'text-white/70'} data-[state=active]:bg-white/10 rounded-sm px-4`}
-              >
-                Trading Activity
-              </TabsTrigger>
-              <TabsTrigger 
-                value="breakdown"
-                className={`${activeTab === 'breakdown' ? getAccentColor() : 'text-white/70'} data-[state=active]:bg-white/10 rounded-sm px-4`}
-              >
-                RWA Breakdown
-              </TabsTrigger>
+        <div className="glass-card neon-border border-kamui-accent/30 p-5 rounded-xl">
+          <Tabs defaultValue="returns" className="w-full">
+            <TabsList className="bg-white/5 mb-6">
+              <TabsTrigger value="returns">Returns</TabsTrigger>
+              <TabsTrigger value="activity">Trading Activity</TabsTrigger>
+              <TabsTrigger value="breakdown">RWA Breakdown</TabsTrigger>
             </TabsList>
             
             <div className="h-[350px] mb-6">
@@ -138,28 +88,17 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({
                 className="h-full w-full"
               >
                 <LineChart data={data} margin={{ top: 5, right: 10, left: 40, bottom: 5 }}>
-                  <CartesianGrid 
-                    strokeDasharray="3 3" 
-                    stroke="rgba(255,255,255,0.05)" 
-                    className="chart-grid-line"
-                    vertical={true}
-                    horizontal={true}
-                  />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                   <XAxis 
                     dataKey="date" 
-                    stroke="rgba(255,255,255,0.1)" 
-                    tick={{ fontSize: 11, fill: "rgba(255,255,255,0.4)" }}
+                    stroke="rgba(255,255,255,0.5)" 
+                    tick={{ fontSize: 12 }}
                     tickCount={period === 'month' ? 10 : undefined}
-                    axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                    tickLine={{ stroke: 'rgba(255,255,255,0.1)' }}
                   />
                   <YAxis 
-                    stroke="rgba(255,255,255,0.1)"
+                    stroke="rgba(255,255,255,0.5)"
                     domain={[0, 1800]}
                     ticks={[0, 450, 900, 1350, 1800]}
-                    tick={{ fontSize: 11, fill: "rgba(255,255,255,0.4)" }}
-                    axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                    tickLine={{ stroke: 'rgba(255,255,255,0.1)' }}
                   />
                   <ChartTooltip
                     content={
@@ -173,19 +112,10 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({
                     type="monotone" 
                     dataKey="value" 
                     name="performance"
-                    stroke={color === 'accent' ? "#7DF9FF" : color === 'purple' ? "#9b87f5" : "#00FFDD"} 
+                    stroke="#7DF9FF" 
                     strokeWidth={2}
-                    dot={{ 
-                      r: 3, 
-                      fill: '#0D1117', 
-                      strokeWidth: 2,
-                      className: `chart-dot ${color}`
-                    }}
-                    activeDot={{ 
-                      r: 6, 
-                      fill: color === 'accent' ? "#7DF9FF" : color === 'purple' ? "#9b87f5" : "#00FFDD",
-                      className: `chart-dot ${color}`
-                    }}
+                    dot={{ r: 3, fill: '#0D1117', strokeWidth: 2 }}
+                    activeDot={{ r: 6, fill: '#7DF9FF' }}
                   />
                 </LineChart>
               </ChartContainer>
@@ -198,7 +128,7 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({
                 { label: "Monthly", value: "+16.7%", trend: "up" },
                 { label: "YTD", value: "+38.2%", trend: "up" }
               ].map((metric, index) => (
-                <div key={index} className={`metrics-card ${color} inner-glow-${color} p-3 text-center`}>
+                <div key={index} className="glass-card p-3 text-center">
                   <p className="text-white/60 text-xs mb-1">{metric.label}</p>
                   <div className="flex items-center justify-center">
                     <p className="text-lg font-semibold text-green-400">{metric.value}</p>

@@ -100,65 +100,13 @@ export default {
             filter: "blur(15px)"
           }
         },
-        "float": {
-          "0%, 100%": {
-            transform: "translateY(0)"
-          },
-          "50%": {
-            transform: "translateY(-10px)"
-          }
-        },
-        "glow": {
-          "0%, 100%": {
-            boxShadow: "0 0 15px rgba(125, 249, 255, 0.5)"
-          },
-          "50%": {
-            boxShadow: "0 0 30px rgba(125, 249, 255, 0.8)"
-          }
-        },
-        "glow-purple": {
-          "0%, 100%": {
-            boxShadow: "0 0 15px rgba(155, 135, 245, 0.5)"
-          },
-          "50%": {
-            boxShadow: "0 0 30px rgba(155, 135, 245, 0.8)"
-          }
-        },
-        "glow-teal": {
-          "0%, 100%": {
-            boxShadow: "0 0 15px rgba(0, 255, 221, 0.5)"
-          },
-          "50%": {
-            boxShadow: "0 0 30px rgba(0, 255, 221, 0.8)"
-          }
-        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out forwards",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
-        "float": "float 3s ease-in-out infinite",
-        "glow": "glow 3s ease-in-out infinite",
-        "glow-purple": "glow-purple 3s ease-in-out infinite",
-        "glow-teal": "glow-teal 3s ease-in-out infinite",
       },
-      textColor: {
-        gradient: {
-          master: 'bg-gradient-to-br from-kamui-accent via-kamui-teal to-blue-400 bg-clip-text text-transparent',
-          intelligence: 'bg-gradient-to-br from-kamui-teal via-kamui-purple to-blue-500 bg-clip-text text-transparent',
-          user: 'bg-gradient-to-br from-kamui-purple via-kamui-pink to-kamui-accent bg-clip-text text-transparent'
-        }
-      },
-      boxShadow: {
-        'neon-accent': '0 0 15px rgba(125, 249, 255, 0.3)',
-        'neon-purple': '0 0 15px rgba(155, 135, 245, 0.3)',
-        'neon-teal': '0 0 15px rgba(0, 255, 221, 0.3)',
-        'glass': '0 8px 32px rgba(0, 0, 0, 0.2)',
-        'inner-glow': 'inset 0 0 15px rgba(125, 249, 255, 0.15)',
-        'inner-glow-purple': 'inset 0 0 15px rgba(155, 135, 245, 0.15)',
-        'inner-glow-teal': 'inset 0 0 15px rgba(0, 255, 221, 0.15)',
-      }
     },
   },
   plugins: [require("tailwindcss-animate")],

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, BarChart3, PieChart, TrendingUp, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,6 @@ import { useRWAAssets } from '@/hooks/useRWAAssets';
 
 const Analytics: React.FC = () => {
   const { assetType } = useRWAAssets();
-  const [activeTab, setActiveTab] = React.useState('returns');
 
   // Sample data for charts
   const returnsData = [
@@ -50,26 +50,6 @@ const Analytics: React.FC = () => {
     }
   };
 
-  const getAssetColor = () => {
-    switch(assetType) {
-      case 'real-estate': return 'purple';
-      case 'precious-metals': return 'accent';
-      case 'fixed-income': return 'teal';
-      case 'equities': return 'purple';
-      default: return 'accent';
-    }
-  };
-
-  const getChartColor = () => {
-    switch(assetType) {
-      case 'real-estate': return '#9b87f5';
-      case 'precious-metals': return '#7DF9FF';
-      case 'fixed-income': return '#00FFDD';
-      case 'equities': return '#9b87f5';
-      default: return '#7DF9FF';
-    }
-  };
-
   return (
     <div className="w-full">
       <div className="flex flex-col">
@@ -79,83 +59,44 @@ const Analytics: React.FC = () => {
             <p className="text-white/70">{getAssetTypeTitle()} metrics and insights</p>
           </div>
           <Button variant="outline" size="icon" className="glass-button hover-scale">
-            <Download className={`h-4 w-4 text-kamui-${getAssetColor() === 'accent' ? 'accent' : getAssetColor()}`} />
+            <Download className="h-4 w-4 text-kamui-accent" />
           </Button>
         </div>
 
-        <div className={`chart-card ${getAssetColor()} neon-border ${getAssetColor()}`}>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full p-5">
-            <TabsList className="bg-black/20 backdrop-blur-sm mb-6 p-1 rounded-md border border-white/5">
-              <TabsTrigger 
-                value="returns" 
-                className={`${activeTab === 'returns' ? `text-kamui-${getAssetColor() === 'accent' ? 'accent' : getAssetColor()}` : 'text-white/70'} data-[state=active]:bg-white/10 rounded-sm px-4`}
-              >
-                Returns
-              </TabsTrigger>
-              <TabsTrigger 
-                value="activity"
-                className={`${activeTab === 'activity' ? `text-kamui-${getAssetColor() === 'accent' ? 'accent' : getAssetColor()}` : 'text-white/70'} data-[state=active]:bg-white/10 rounded-sm px-4`}
-              >
-                Trading Activity
-              </TabsTrigger>
-              <TabsTrigger 
-                value="breakdown"
-                className={`${activeTab === 'breakdown' ? `text-kamui-${getAssetColor() === 'accent' ? 'accent' : getAssetColor()}` : 'text-white/70'} data-[state=active]:bg-white/10 rounded-sm px-4`}
-              >
-                RWA Breakdown
-              </TabsTrigger>
+        <div className="glass-card neon-border border-kamui-accent/30 p-5 rounded-xl">
+          <Tabs defaultValue="returns" className="w-full">
+            <TabsList className="bg-white/5 mb-6">
+              <TabsTrigger value="returns">Returns</TabsTrigger>
+              <TabsTrigger value="activity">Trading Activity</TabsTrigger>
+              <TabsTrigger value="breakdown">RWA Breakdown</TabsTrigger>
             </TabsList>
             
             <TabsContent value="returns">
               <div className="h-[350px] mb-6">
                 <ResponsiveContainer width="100%" height="100%">
                   <ReLineChart data={returnsData}>
-                    <CartesianGrid 
-                      strokeDasharray="3 3" 
-                      stroke="rgba(255,255,255,0.05)" 
-                      className="chart-grid-line"
-                    />
-                    <XAxis 
-                      dataKey="date" 
-                      stroke="rgba(255,255,255,0.1)" 
-                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.4)" }}
-                      axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                      tickLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                    />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                    <XAxis dataKey="date" stroke="rgba(255,255,255,0.5)" />
                     <YAxis 
-                      stroke="rgba(255,255,255,0.1)"
+                      stroke="rgba(255,255,255,0.5)"
                       domain={[0, 1800]}
                       ticks={[0, 450, 900, 1350, 1800]}
-                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.4)" }}
-                      axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                      tickLine={{ stroke: 'rgba(255,255,255,0.1)' }}
                     />
                     <Tooltip 
                       contentStyle={{ 
-                        backgroundColor: 'rgba(13, 17, 23, 0.9)', 
-                        borderColor: getChartColor(), 
+                        backgroundColor: 'rgba(13, 17, 23, 0.8)', 
+                        borderColor: '#7DF9FF', 
                         borderRadius: '8px',
-                        color: 'white',
-                        backdropFilter: 'blur(12px)',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
+                        color: 'white'
                       }} 
                     />
                     <Line 
                       type="monotone" 
                       dataKey="value" 
-                      stroke={getChartColor()} 
+                      stroke="#7DF9FF" 
                       strokeWidth={2}
-                      dot={{ 
-                        r: 4, 
-                        fill: '#0D1117', 
-                        strokeWidth: 2,
-                        className: `chart-dot ${getAssetColor()}`
-                      }}
-                      activeDot={{ 
-                        r: 6, 
-                        fill: getChartColor(),
-                        className: `chart-dot ${getAssetColor()}`
-                      }}
+                      dot={{ r: 4, fill: '#0D1117', strokeWidth: 2 }}
+                      activeDot={{ r: 6, fill: '#7DF9FF' }}
                     />
                   </ReLineChart>
                 </ResponsiveContainer>
@@ -168,7 +109,7 @@ const Analytics: React.FC = () => {
                   { label: "Monthly", value: "+16.7%", trend: "up" },
                   { label: "YTD", value: "+38.2%", trend: "up" }
                 ].map((metric, index) => (
-                  <div key={index} className={`metrics-card ${getAssetColor()} inner-glow-${getAssetColor()} p-3 text-center`}>
+                  <div key={index} className="glass-card p-3 text-center">
                     <p className="text-white/60 text-xs mb-1">{metric.label}</p>
                     <div className="flex items-center justify-center">
                       <p className="text-lg font-semibold text-green-400">{metric.value}</p>
@@ -187,37 +128,20 @@ const Analytics: React.FC = () => {
               <div className="h-[350px] mb-6">
                 <ResponsiveContainer width="100%" height="100%">
                   <ReBarChart data={activityData}>
-                    <CartesianGrid 
-                      strokeDasharray="3 3" 
-                      stroke="rgba(255,255,255,0.05)"
-                      className="chart-grid-line" 
-                    />
-                    <XAxis 
-                      dataKey="date" 
-                      stroke="rgba(255,255,255,0.1)" 
-                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.4)" }}
-                      axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                      tickLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                    />
-                    <YAxis 
-                      stroke="rgba(255,255,255,0.1)" 
-                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.4)" }}
-                      axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                      tickLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                    />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                    <XAxis dataKey="date" stroke="rgba(255,255,255,0.5)" />
+                    <YAxis stroke="rgba(255,255,255,0.5)" />
                     <Tooltip 
                       contentStyle={{ 
-                        backgroundColor: 'rgba(13, 17, 23, 0.9)', 
-                        borderColor: getChartColor(), 
+                        backgroundColor: 'rgba(13, 17, 23, 0.8)', 
+                        borderColor: '#9b87f5', 
                         borderRadius: '8px',
-                        color: 'white',
-                        backdropFilter: 'blur(12px)',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
+                        color: 'white'
                       }} 
                     />
                     <Bar 
                       dataKey="trades" 
-                      fill={getChartColor()} 
+                      fill="#9b87f5" 
                       radius={[4, 4, 0, 0]}
                     />
                   </ReBarChart>
@@ -241,21 +165,15 @@ const Analytics: React.FC = () => {
                       label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                     >
                       {rwaComparisonData.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={COLORS[index % COLORS.length]} 
-                          className={`chart-dot ${index === 0 ? 'purple' : index === 1 ? 'accent' : index === 2 ? 'teal' : 'purple'}`}
-                        />
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
                     <Tooltip 
                       contentStyle={{ 
-                        backgroundColor: 'rgba(13, 17, 23, 0.9)', 
-                        borderColor: getChartColor(), 
+                        backgroundColor: 'rgba(13, 17, 23, 0.8)', 
+                        borderColor: '#7DF9FF', 
                         borderRadius: '8px',
-                        color: 'white',
-                        backdropFilter: 'blur(12px)',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
+                        color: 'white'
                       }} 
                     />
                   </RePieChart>

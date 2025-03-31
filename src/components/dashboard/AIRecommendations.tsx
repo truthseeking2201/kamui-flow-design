@@ -14,7 +14,7 @@ const AIRecommendations: React.FC = () => {
     {
       title: "Master AI: Portfolio Rebalance",
       description: "Optimize for RWA market conditions",
-      icon: <Brain className="w-4 h-4 text-kamui-accent" />,
+      icon: <Brain className="w-4 h-4 text-kamui-purple" />,
       action: "Accept Recommendation",
       expanded: "The Master AI Agent has analyzed current RWA market conditions and recommends rebalancing your portfolio to reduce risk by 15% while maintaining similar returns. This includes increasing USDK allocation by 5% and decreasing real estate exposure temporarily.",
       agentType: "master",
@@ -24,7 +24,7 @@ const AIRecommendations: React.FC = () => {
     {
       title: "Intelligence AI: Market Analysis",
       description: "Tokenized real estate opportunity",
-      icon: <Lightbulb className="w-4 h-4 text-kamui-teal" />,
+      icon: <Layers className="w-4 h-4 text-kamui-teal" />,
       action: "View Analysis",
       expanded: "Our Intelligence Agents have identified increasing liquidity in the tokenized real estate market, suggesting a potential yield opportunity. The forecast shows a 3-5% increase in market activity over the next 7 days.",
       agentType: "intelligence",
@@ -44,7 +44,7 @@ const AIRecommendations: React.FC = () => {
     {
       title: "User AI: Strategy Suggestion",
       description: "New fixed-income market-making strategy",
-      icon: <LineChart className="w-4 h-4 text-kamui-purple" />,
+      icon: <LineChart className="w-4 h-4 text-kamui-accent" />,
       action: "Deploy Strategy",
       expanded: "Based on your risk profile and previous strategy preferences, our User AI Agent has developed a custom fixed-income market-making strategy. Simulations predict a 12-18% APY with moderate risk profile. Deploy this strategy to your agents with one click.",
       agentType: "user",
@@ -54,7 +54,7 @@ const AIRecommendations: React.FC = () => {
     {
       title: "Intelligence AI: Data Lake Insight",
       description: "Correlation discovered in RWA markets",
-      icon: <Lightbulb className="w-4 h-4 text-kamui-teal" />,
+      icon: <Lightbulb className="w-4 h-4 text-green-400" />,
       action: "Explore Insight",
       expanded: "Our comprehensive data lake analysis has revealed a strong correlation between tokenized commercial real estate and fixed income markets during the last 30 days. This pattern suggests potential arbitrage opportunities between these asset classes.",
       agentType: "intelligence",
@@ -96,11 +96,11 @@ const AIRecommendations: React.FC = () => {
   const getAgentBadge = (agentType: string) => {
     switch(agentType) {
       case 'master':
-        return <Badge className="bg-kamui-accent text-white text-xs">Master AI</Badge>;
+        return <Badge className="bg-kamui-purple text-white text-xs">Master AI</Badge>;
       case 'intelligence':
         return <Badge className="bg-kamui-teal text-white text-xs">Intelligence AI</Badge>;
       case 'user':
-        return <Badge className="bg-kamui-purple text-white text-xs">User AI</Badge>;
+        return <Badge className="bg-kamui-accent text-white text-xs">User AI</Badge>;
       default:
         return null;
     }
@@ -131,11 +131,7 @@ const AIRecommendations: React.FC = () => {
       <CardContent>
         <div className="space-y-4">
           {recommendations.map((item, index) => (
-            <div key={index} className={`glass-card p-4 hover-scale group transition-all duration-300 ${
-              item.agentType === 'master' ? 'border-l-4 border-kamui-accent' : 
-              item.agentType === 'intelligence' ? 'border-l-4 border-kamui-teal' : 
-              item.agentType === 'user' ? 'border-l-4 border-kamui-purple' : ''
-            }`}>
+            <div key={index} className="glass-card p-4 hover-scale group transition-all duration-300">
               <div 
                 className="flex justify-between items-start cursor-pointer"
                 onClick={() => toggleExpand(index)}
@@ -170,11 +166,7 @@ const AIRecommendations: React.FC = () => {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className={`${
-                      item.agentType === 'master' ? 'text-kamui-accent border-kamui-accent/30' : 
-                      item.agentType === 'intelligence' ? 'text-kamui-teal border-kamui-teal/30' : 
-                      'text-kamui-purple border-kamui-purple/30'
-                    } hover-scale group`}
+                    className="text-kamui-accent border-kamui-accent/30 hover-scale group"
                     onClick={() => handleRecommendationAction(index)}
                   >
                     <span className="text-xs">{item.action}</span>
