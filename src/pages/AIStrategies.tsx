@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -29,7 +28,7 @@ const AIStrategies: React.FC = () => {
         </div>
         <Button 
           variant="outline" 
-          className="glass-button text-kamui-accent hover-scale"
+          className="glass-button text-black hover-scale"
           onClick={handleNewStrategy}
         >
           <Plus className="mr-2 h-4 w-4" />
@@ -51,7 +50,7 @@ const AIStrategies: React.FC = () => {
           <div className="flex gap-2 mt-6">
             <Button 
               variant="outline" 
-              className="w-full glass-button text-kamui-accent hover-scale group"
+              className="w-full glass-button text-black hover-scale group"
               onClick={handleNewStrategy}
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -60,7 +59,7 @@ const AIStrategies: React.FC = () => {
             
             <Button 
               variant="outline" 
-              className="w-full glass-button text-kamui-purple hover-scale group"
+              className="w-full glass-button text-black hover-scale group"
               onClick={() => {
                 toast({
                   title: "Strategy Templates",
