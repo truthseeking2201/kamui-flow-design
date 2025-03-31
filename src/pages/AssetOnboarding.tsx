@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
-import { Building, CheckCircle, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Building, CheckCircle, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -59,20 +59,9 @@ const AssetOnboarding: React.FC = () => {
     <Layout>
       <div className="pt-24">
         <div className="container mx-auto px-6 my-12">
-          <div className="flex items-center gap-4 mb-6">
-            <Button 
-              variant="outline" 
-              className="glass-button hover-scale"
-              onClick={handleBackToDashboard}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
-            </Button>
-            
-            <h1 className="font-display font-bold text-3xl">
-              RWA <span className="text-gradient">Asset Onboarding</span>
-            </h1>
-          </div>
+          <h1 className="font-display font-bold text-3xl mb-8">
+            RWA <span className="text-gradient">Asset Onboarding</span>
+          </h1>
           
           {/* Stepper */}
           <div className="flex items-center justify-center mb-12">
@@ -143,3 +132,4 @@ const AssetOnboarding: React.FC = () => {
 };
 
 export default AssetOnboarding;
+
