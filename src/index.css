@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -66,13 +67,53 @@
   .glass-card {
     @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-lg rounded-2xl;
   }
+  
+  .chart-card {
+    @apply relative rounded-xl backdrop-blur-sm bg-gradient-to-br from-black/40 to-black/20 shadow-xl;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .chart-card::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
+    z-index: -1;
+    margin: -1px;
+  }
+  
+  .chart-card::after {
+    content: '';
+    @apply absolute inset-0 rounded-xl opacity-50 pointer-events-none;
+    background: radial-gradient(circle at top right, rgba(125, 249, 255, 0.15), transparent 80%);
+  }
+  
+  .chart-card.purple::after {
+    background: radial-gradient(circle at top right, rgba(155, 135, 245, 0.15), transparent 80%);
+  }
+  
+  .chart-card.teal::after {
+    background: radial-gradient(circle at top right, rgba(0, 255, 221, 0.15), transparent 80%);
+  }
 
   .glass-button {
     @apply bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 rounded-lg;
   }
 
   .neon-border {
-    @apply border border-kamui-accent relative after:absolute after:inset-0 after:border after:border-kamui-accent after:blur-sm after:opacity-70 after:rounded-2xl rounded-2xl;
+    @apply relative rounded-xl before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent;
+  }
+  
+  .neon-border.accent {
+    @apply before:via-kamui-accent/20;
+  }
+  
+  .neon-border.purple {
+    @apply before:via-kamui-purple/20;
+  }
+  
+  .neon-border.teal {
+    @apply before:via-kamui-teal/20;
   }
 
   .text-gradient {
@@ -97,6 +138,33 @@
 
   .bg-gradient-card {
     @apply bg-gradient-to-br from-kamui-dark via-[#15192A] to-[#1A1E32];
+  }
+  
+  .metrics-card {
+    @apply relative overflow-hidden bg-gradient-to-br from-black/30 to-black/10 backdrop-blur-md rounded-xl transition-all duration-300;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  
+  .metrics-card::before {
+    content: '';
+    @apply absolute inset-0 opacity-20 transition-opacity duration-300;
+    background: radial-gradient(circle at top right, rgba(125, 249, 255, 0.3), transparent 70%);
+  }
+  
+  .metrics-card:hover::before {
+    @apply opacity-30;
+  }
+  
+  .metrics-card.purple::before {
+    background: radial-gradient(circle at top right, rgba(155, 135, 245, 0.3), transparent 70%);
+  }
+  
+  .metrics-card.teal::before {
+    background: radial-gradient(circle at top right, rgba(0, 255, 221, 0.3), transparent 70%);
+  }
+  
+  .metrics-card.pink::before {
+    background: radial-gradient(circle at top right, rgba(217, 70, 239, 0.3), transparent 70%);
   }
   
   .story-link {
@@ -136,6 +204,18 @@
   
   .text-shadow-xl {
     text-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+  
+  .inner-glow {
+    box-shadow: inset 0 0 20px rgba(125, 249, 255, 0.15);
+  }
+  
+  .inner-glow-purple {
+    box-shadow: inset 0 0 20px rgba(155, 135, 245, 0.15);
+  }
+  
+  .inner-glow-teal {
+    box-shadow: inset 0 0 20px rgba(0, 255, 221, 0.15);
   }
 }
 
@@ -187,4 +267,31 @@
 
 .animate-particle-flow {
   animation: particle-flow 3s ease-in-out infinite;
+}
+
+/* Chart styling */
+.grid-lines path {
+  stroke: rgba(255, 255, 255, 0.05) !important;
+}
+
+.chart-grid-line {
+  stroke: rgba(255, 255, 255, 0.05) !important;
+  stroke-dasharray: 3 3;
+}
+
+.chart-axis-tick {
+  fill: rgba(255, 255, 255, 0.4) !important;
+  font-size: 11px;
+}
+
+.chart-dot {
+  filter: drop-shadow(0 0 3px rgba(125, 249, 255, 0.5));
+}
+
+.chart-dot.purple {
+  filter: drop-shadow(0 0 3px rgba(155, 135, 245, 0.5));
+}
+
+.chart-dot.teal {
+  filter: drop-shadow(0 0 3px rgba(0, 255, 221, 0.5));
 }
