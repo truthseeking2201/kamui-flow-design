@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -68,9 +67,6 @@ const IntelligenceAgents: React.FC = () => {
       // Reset form
       setNewAgentName('');
       setNewAgentType('intelligence');
-      
-      // In a real application, you might navigate to the new agent's page
-      // navigate(`/agent/${newAgentId}`);
     }, 1500);
   };
 
@@ -80,7 +76,6 @@ const IntelligenceAgents: React.FC = () => {
       description: "Loading agent management interface",
     });
     
-    // Navigate to the agent details page
     navigate(`/agent/${agentId}`);
   };
 
@@ -97,110 +92,98 @@ const IntelligenceAgents: React.FC = () => {
     }
   };
 
-  const getAgentColor = (type: string) => {
-    switch (type) {
-      case 'master':
-        return {
-          bg: 'from-kamui-accent/30 to-kamui-teal/30',
-          text: 'text-kamui-accent',
-          border: 'border-kamui-accent/30',
-          shadow: 'shadow-kamui-accent/20'
-        };
-      case 'intelligence':
-        return {
-          bg: 'from-kamui-teal/30 to-kamui-purple/30',
-          text: 'text-kamui-teal',
-          border: 'border-kamui-teal/30',
-          shadow: 'shadow-kamui-teal/20'
-        };
-      case 'user':
-        return {
-          bg: 'from-kamui-purple/30 to-kamui-accent/30',
-          text: 'text-kamui-purple',
-          border: 'border-kamui-purple/30',
-          shadow: 'shadow-kamui-purple/20'
-        };
-      default:
-        return {
-          bg: 'from-gray-500/30 to-gray-700/30',
-          text: 'text-gray-400',
-          border: 'border-gray-500/30',
-          shadow: 'shadow-gray-500/20'
-        };
-    }
-  };
-
   return (
-    <div className="space-y-8 py-8">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
+    <div className="space-y-8 py-8 px-6 max-w-7xl mx-auto">
+      {/* Refined Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
         <div>
-          <h1 className="font-display font-bold text-2xl md:text-3xl mb-2">
-            Intelligence <span className="text-gradient">Agents</span>
+          <h1 className="font-display font-bold text-3xl mb-2 text-gradient">
+            Intelligence Agents
           </h1>
-          <p className="text-white/70">AI agent ecosystem for RWA market-making and analysis</p>
+          <p className="text-white/70 text-lg">Intelligent ecosystem for RWA market-making</p>
         </div>
         
         <Button
           variant="outline"
-          className="glass-button text-kamui-accent hover-scale mt-4 md:mt-0"
+          className="glass-button text-kamui-accent hover-scale mt-4 md:mt-0 px-6 py-3"
           onClick={handleDeployAgent}
         >
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-5 h-5 mr-2" />
           Deploy New Agent
         </Button>
       </div>
 
       {/* AI Hierarchy Explanation */}
-      <Card className="bg-gradient-card border-white/5">
+      <Card className="bg-gradient-card border-white/5 shadow-xl">
         <CardHeader>
-          <CardTitle>Kamui AI Hierarchy</CardTitle>
-          <CardDescription>Three-tier intelligence structure for RWA market-making</CardDescription>
+          <CardTitle className="text-2xl text-gradient-purple">Kamui AI Hierarchy</CardTitle>
+          <CardDescription>Sophisticated three-tier intelligence structure</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="glass-card p-6 text-center hover-scale border-t-4 border-kamui-accent">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-kamui-accent/30 to-kamui-teal/30 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-kamui-accent/20">
-                <Brain className="h-8 w-8 text-kamui-accent" />
+            {[
+              {
+                type: 'master',
+                title: 'Master AI Agent',
+                description: 'Centralized liquidity management and strategy orchestration',
+                icon: <Brain className="h-10 w-10 text-kamui-accent" />,
+                color: 'border-kamui-accent'
+              },
+              {
+                type: 'intelligence',
+                title: 'Intelligence Agents',
+                description: 'Advanced market data analysis and predictive modeling',
+                icon: <Lightbulb className="h-10 w-10 text-kamui-teal" />,
+                color: 'border-kamui-teal'
+              },
+              {
+                type: 'user',
+                title: 'User AI Agents',
+                description: 'Customizable strategy execution and trading bots',
+                icon: <User className="h-10 w-10 text-kamui-purple" />,
+                color: 'border-kamui-purple'
+              }
+            ].map((agent) => (
+              <div 
+                key={agent.type} 
+                className={`glass-card p-6 text-center hover-scale border-t-4 ${agent.color} transition-all duration-300 ease-in-out`}
+              >
+                <div className="w-20 h-20 rounded-full bg-gradient-to-r from-transparent to-[${agent.color}]/20 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  {agent.icon}
+                </div>
+                <h3 className={`font-medium text-xl mb-2 text-gradient-${agent.type}`}>{agent.title}</h3>
+                <p className="text-white/70 text-sm">{agent.description}</p>
               </div>
-              <h3 className="font-medium text-lg mb-2 text-kamui-accent">Master AI Agent</h3>
-              <p className="text-white/70 text-sm">Overall liquidity management and strategy orchestration for all RWA assets</p>
-            </div>
-            
-            <div className="glass-card p-6 text-center hover-scale border-t-4 border-kamui-teal">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-kamui-teal/30 to-kamui-purple/30 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-kamui-teal/20">
-                <Lightbulb className="h-8 w-8 text-kamui-teal" />
-              </div>
-              <h3 className="font-medium text-lg mb-2 text-kamui-teal">Intelligence Agents</h3>
-              <p className="text-white/70 text-sm">Market data collectors, analyzers and predictive models for improved accuracy</p>
-            </div>
-            
-            <div className="glass-card p-6 text-center hover-scale border-t-4 border-kamui-purple">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-kamui-purple/30 to-kamui-accent/30 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-kamui-purple/20">
-                <User className="h-8 w-8 text-kamui-purple" />
-              </div>
-              <h3 className="font-medium text-lg mb-2 text-kamui-purple">User AI Agents</h3>
-              <p className="text-white/70 text-sm">Individual strategy execution and trading bots managed by users</p>
-            </div>
+            ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Agent Types */}
+      {/* Agent Types Tabs */}
       <Tabs defaultValue="intelligence" className="space-y-4">
-        <TabsList className="w-full max-w-md grid grid-cols-3">
-          <TabsTrigger value="master" className="border-b-2 border-transparent data-[state=active]:border-kamui-accent">
-            <Brain className="w-4 h-4 mr-2 text-kamui-accent" />
-            Master AI
-          </TabsTrigger>
-          <TabsTrigger value="intelligence" className="border-b-2 border-transparent data-[state=active]:border-kamui-teal">
-            <Lightbulb className="w-4 h-4 mr-2 text-kamui-teal" />
-            Intelligence
-          </TabsTrigger>
-          <TabsTrigger value="user" className="border-b-2 border-transparent data-[state=active]:border-kamui-purple">
-            <User className="w-4 h-4 mr-2 text-kamui-purple" />
-            User Agents
-          </TabsTrigger>
+        <TabsList className="w-full max-w-md grid grid-cols-3 bg-white/5 backdrop-blur-md">
+          {[
+            { value: 'master', icon: <Brain className="w-4 h-4 mr-2 text-kamui-accent" />, label: 'Master AI' },
+            { value: 'intelligence', icon: <Lightbulb className="w-4 h-4 mr-2 text-kamui-teal" />, label: 'Intelligence' },
+            { value: 'user', icon: <User className="w-4 h-4 mr-2 text-kamui-purple" />, label: 'User Agents' }
+          ].map((tab) => (
+            <TabsTrigger 
+              key={tab.value} 
+              value={tab.value} 
+              className={`
+                border-b-2 border-transparent 
+                data-[state=active]:border-${
+                  tab.value === 'master' ? 'kamui-accent' : 
+                  tab.value === 'intelligence' ? 'kamui-teal' : 
+                  'kamui-purple'
+                } 
+                hover:bg-white/10 transition-all
+              `}
+            >
+              {tab.icon}
+              {tab.label}
+            </TabsTrigger>
+          ))}
         </TabsList>
 
         <TabsContent value="master" className="space-y-4">
@@ -482,16 +465,16 @@ const IntelligenceAgents: React.FC = () => {
         </TabsContent>
       </Tabs>
 
-      {/* Deploy Agent Dialog */}
+      {/* Deployment Dialog */}
       <Dialog open={deployDialogOpen} onOpenChange={setDeployDialogOpen}>
-        <DialogContent className="bg-gradient-card border-white/5 text-white">
+        <DialogContent className="bg-gradient-card border-white/5 text-white max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-xl flex items-center gap-2">
-              <Plus className="h-5 w-5 text-kamui-accent" />
+            <DialogTitle className="text-2xl flex items-center gap-3 text-gradient">
+              <Plus className="h-6 w-6 text-kamui-accent" />
               Deploy New AI Agent
             </DialogTitle>
             <DialogDescription className="text-white/70">
-              Configure and deploy a new AI agent to your RWA management ecosystem
+              Configure a sophisticated AI agent for your RWA ecosystem
             </DialogDescription>
           </DialogHeader>
           
