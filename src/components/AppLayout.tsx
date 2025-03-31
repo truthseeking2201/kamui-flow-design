@@ -7,9 +7,10 @@ import Breadcrumbs from './Breadcrumbs';
 
 interface AppLayoutProps {
   hideNav?: boolean;
+  hideBreadcrumbs?: boolean;
 }
 
-const AppLayout: React.FC<AppLayoutProps> = ({ hideNav = false }) => {
+const AppLayout: React.FC<AppLayoutProps> = ({ hideNav = false, hideBreadcrumbs = true }) => {
   return (
     <div className="min-h-screen w-full bg-kamui-dark text-foreground overflow-hidden relative">
       <AnimatedBackground />
@@ -20,7 +21,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ hideNav = false }) => {
       )}
       <main className="relative z-10 pt-24">
         <div className="container mx-auto px-6">
-          {!hideNav && <Breadcrumbs />}
+          {!hideNav && !hideBreadcrumbs && <Breadcrumbs />}
           <Outlet />
         </div>
       </main>
