@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Bot, 
   Brain, 
@@ -8,7 +9,9 @@ import {
   LineChart, 
   Plus, 
   Shield, 
-  Zap 
+  Zap,
+  CheckCircle,
+  Settings
 } from 'lucide-react';
 import { 
   Card, 
@@ -20,22 +23,62 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const IntelligenceAgents: React.FC = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [deployDialogOpen, setDeployDialogOpen] = useState(false);
+  const [newAgentName, setNewAgentName] = useState('');
+  const [newAgentType, setNewAgentType] = useState('intelligence');
+  const [deployingAgent, setDeployingAgent] = useState(false);
   
   const handleDeployAgent = () => {
-    toast({
-      title: "Deploying New Agent",
-      description: "Initializing agent deployment wizard",
-    });
+    setDeployDialogOpen(true);
   };
 
-  const handleAgentClick = (agentName: string) => {
+  const handleConfirmDeploy = () => {
+    if (!newAgentName.trim()) {
+      toast({
+        title: "Agent Name Required",
+        description: "Please provide a name for your new agent",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setDeployingAgent(true);
+    
+    // Simulate deployment process
+    setTimeout(() => {
+      setDeployingAgent(false);
+      setDeployDialogOpen(false);
+      
+      toast({
+        title: "Agent Deployed Successfully",
+        description: `${newAgentName} has been deployed and is now initializing`,
+      });
+      
+      // Reset form
+      setNewAgentName('');
+      setNewAgentType('intelligence');
+      
+      // In a real application, you might navigate to the new agent's page
+      // navigate(`/agent/${newAgentId}`);
+    }, 1500);
+  };
+
+  const handleAgentClick = (agentName: string, agentId: string) => {
     toast({
       title: `Agent Selected: ${agentName}`,
       description: "Loading agent management interface",
     });
+    
+    // Navigate to the agent details page
+    navigate(`/agent/${agentId}`);
   };
 
   return (
@@ -112,7 +155,7 @@ const IntelligenceAgents: React.FC = () => {
               <CardDescription>Centralized RWA liquidity management system</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="glass-card p-6 hover-scale cursor-pointer">
+              <div className="glass-card p-6 hover-scale cursor-pointer" onClick={() => handleAgentClick("Master AI v1.3", "master-1")}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-kamui-accent/20 to-kamui-teal/20 flex items-center justify-center mr-4">
@@ -126,7 +169,16 @@ const IntelligenceAgents: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <Button variant="outline" className="glass-button text-kamui-accent">Manage</Button>
+                  <Button 
+                    variant="outline" 
+                    className="glass-button text-kamui-accent"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/agent/master-1");
+                    }}
+                  >
+                    Manage
+                  </Button>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -218,7 +270,7 @@ const IntelligenceAgents: React.FC = () => {
                   <div 
                     key={agent.id} 
                     className="glass-card p-4 hover-scale cursor-pointer"
-                    onClick={() => handleAgentClick(agent.name)}
+                    onClick={() => handleAgentClick(agent.name, agent.id)}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center">
@@ -320,7 +372,7 @@ const IntelligenceAgents: React.FC = () => {
                   <div 
                     key={agent.id} 
                     className="glass-card p-4 hover-scale cursor-pointer"
-                    onClick={() => handleAgentClick(agent.name)}
+                    onClick={() => handleAgentClick(agent.name, agent.id)}
                   >
                     <h3 className="font-medium text-white mb-1">{agent.name}</h3>
                     <p className="text-white/60 text-sm mb-2">{agent.description}</p>
@@ -343,7 +395,15 @@ const IntelligenceAgents: React.FC = () => {
                         <p className="text-sm font-medium">{agent.transactions}</p>
                       </div>
                       <div className="md:col-span-1 col-span-2">
-                        <Button variant="outline" size="sm" className="w-full h-full glass-button text-kamui-purple">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="w-full h-full glass-button text-kamui-purple"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/agent/${agent.id}`);
+                          }}
+                        >
                           Manage
                         </Button>
                       </div>
@@ -363,6 +423,91 @@ const IntelligenceAgents: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Deploy Agent Dialog */}
+      <Dialog open={deployDialogOpen} onOpenChange={setDeployDialogOpen}>
+        <DialogContent className="bg-gradient-card border-white/5 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <Plus className="h-5 w-5 text-kamui-accent" />
+              Deploy New Intelligence Agent
+            </DialogTitle>
+            <DialogDescription className="text-white/70">
+              Configure and deploy a new AI agent to your RWA management ecosystem
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label htmlFor="agentName">Agent Name</Label>
+              <Input 
+                id="agentName" 
+                value={newAgentName} 
+                onChange={(e) => setNewAgentName(e.target.value)} 
+                placeholder="e.g., Market Data Analyzer"
+                className="glass-card border-white/10 focus:border-kamui-accent/50"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="agentType">Agent Type</Label>
+              <Select value={newAgentType} onValueChange={setNewAgentType}>
+                <SelectTrigger className="glass-card border-white/10">
+                  <SelectValue placeholder="Select agent type" />
+                </SelectTrigger>
+                <SelectContent className="bg-gradient-card border-white/5">
+                  <SelectItem value="master">Master AI</SelectItem>
+                  <SelectItem value="intelligence">Intelligence Agent</SelectItem>
+                  <SelectItem value="user">User Agent</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="agentPurpose">Agent Purpose</Label>
+              <Select>
+                <SelectTrigger className="glass-card border-white/10">
+                  <SelectValue placeholder="Select agent purpose" />
+                </SelectTrigger>
+                <SelectContent className="bg-gradient-card border-white/5">
+                  <SelectItem value="data-collection">Data Collection</SelectItem>
+                  <SelectItem value="market-analysis">Market Analysis</SelectItem>
+                  <SelectItem value="trade-execution">Trade Execution</SelectItem>
+                  <SelectItem value="risk-management">Risk Management</SelectItem>
+                  <SelectItem value="custom">Custom Purpose</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          
+          <DialogFooter className="flex space-x-2 pt-2">
+            <Button 
+              variant="outline" 
+              onClick={() => setDeployDialogOpen(false)}
+              className="glass-button"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleConfirmDeploy}
+              className="glass-button bg-gradient-to-r from-kamui-accent to-kamui-teal text-white"
+              disabled={deployingAgent}
+            >
+              {deployingAgent ? (
+                <>
+                  <span className="mr-2">Deploying</span>
+                  <span className="animate-spin h-4 w-4 border-2 border-b-transparent rounded-full"></span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle className="mr-2 h-4 w-4" />
+                  Deploy Agent
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

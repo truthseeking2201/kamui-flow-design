@@ -19,7 +19,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ hideNav = false, hideBreadcrumbs 
           <AppNavigation />
         </header>
       )}
-      <main className="relative z-10 pt-24">
+      <main className="relative z-10 pt-16">
         <div className="container mx-auto px-6">
           {!hideNav && !hideBreadcrumbs && <Breadcrumbs />}
           <Outlet />
